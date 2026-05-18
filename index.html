@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer Topup - Free Fire</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', Arial, sans-serif; }
+body { background: #f5f5f5; padding-bottom: 70px; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.logo img { height: 35px; }
+.login-btn { background: #7b2cff; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.notice { background: #7b2cff; color: #fff; padding: 12px 15px; font-size: 14px; line-height: 1.5; }
+.slider { width: 100%; overflow: hidden; max-height: 180px; }
+.slider img { width: 100%; height: 180px; object-fit: cover; }
+.section-title { text-align: center; font-size: 22px; font-weight: 700; margin: 20px 0 15px; color: #333; }
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 10px; }
+.product { background: #fff; border-radius: 12px; overflow: hidden; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; }
+.product img { width: 100%; height: 120px; object-fit: cover; }
+.product p { padding: 8px 5px 2px; font-size: 13px; font-weight: 600; color: #333; }
+.product .price { display: block; font-size: 16px; font-weight: 700; color: #7b2cff; padding: 0 5px 8px; }
+/* Modal */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; overflow-y: auto; }
+.modal.active { display: block; }
+.modal-content { background: #fff; margin: 0 auto; max-width: 500px; min-height: 100vh; }
+.modal-header { padding: 15px; border-bottom: 1px solid #eee; }
+.modal-header h3 { font-size: 18px; }
+.modal-body { padding: 15px; }
+.step { margin-bottom: 20px; }
+.step-title { display: flex; align-items: center; font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.step-title span { background: #7b2cff; color: #fff; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; font-size: 14px; }
+input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+.payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.payment-card { border: 2px solid #ddd; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; }
+.payment-card.selected { border-color: #7b2cff; background: #f5f0ff; }
+.payment-card img { height: 35px; margin-bottom: 5px; }
+.payment-card small { display: block; font-size: 12px; color: #666; }
+.buy-now-btn { width: 100%; padding: 14px; background: #7b2cff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+.balance-info { background: #f9f9f9; padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 14px; }
+.close-modal { float: right; font-size: 24px; cursor: pointer; color: #666; }
+/* Payment Gateway Modal */
+.payment-gateway { background: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+.pg-header { padding: 15px; text-align: right; }
+.pg-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
+.pg-body { flex: 1; padding: 20px; text-align: center; }
+.pg-wallet-icon { margin-bottom: 30px; }
+.circle-icon { width: 80px; height: 80px; border: 2px solid #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 40px; }
+.pg-mobile-btn { width: 100%; padding: 14px; background: #0066ff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; margin-bottom: 20px; cursor: pointer; }
+.pg-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.pg-method { border: 1px solid #ddd; border-radius: 10px; padding: 15px; cursor: pointer; transition: 0.2s; }
+.pg-method.selected { border-color: #0066ff; background: #f0f7ff; }
+.pg-method img { height: 35px; object-fit: contain; }
+.pg-footer { padding: 15px; background: #f0f7ff; }
+.pg-pay-btn { width: 100%; padding: 15px; background: #0066ff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.pg-pay-btn:disabled { background: #ccc; cursor: not-allowed; }
+/* Manual Payment Modal */
+.manual-pay { background: #f5f5f5; min-height: 100vh; }
+.mp-header { background: #fff; padding: 15px; }
+</style>
+</head>
+<body>
+<!-- এখানে তোমার আগের HTML বডি কোড বসবে -->
+</body>
+</html>
