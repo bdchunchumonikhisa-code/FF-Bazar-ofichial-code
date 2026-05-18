@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Offer Topup - Free Fire</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hind Siliguri', Arial, sans-serif; }
+body { background: #f5f5f5; padding-bottom: 70px; }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.logo img { height: 35px; }
+.login-btn { background: #7b2cff; color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.notice { background: #7b2cff; color: #fff; padding: 12px 15px; font-size: 14px; line-height: 1.5; }
+.slider { width: 100%; overflow: hidden; max-height: 180px; }
+.slider img { width: 100%; height: 180px; object-fit: cover; }
+.section-title { text-align: center; font-size: 22px; font-weight: 700; margin: 20px 0 15px; color: #333; }
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 10px; }
+.product { background: #fff; border-radius: 12px; overflow: hidden; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; }
+.product img { width: 100%; height: 120px; object-fit: cover; }
+.product p { padding: 8px 5px 2px; font-size: 13px; font-weight: 600; color: #333; }
+.product .price { display: block; font-size: 16px; font-weight: 700; color: #7b2cff; padding: 0 5px 8px; }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; overflow-y: auto; }
+.modal.active { display: block; }
+.modal-content { background: #fff; margin: 0 auto; max-width: 500px; min-height: 100vh; }
+.modal-header { padding: 15px; border-bottom: 1px solid #eee; }
+.modal-header h3 { font-size: 18px; }
+.modal-body { padding: 15px; }
+.step { margin-bottom: 20px; }
+.step-title { display: flex; align-items: center; font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.step-title span { background: #7b2cff; color: #fff; width: 25px; height: 25px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-right: 8px; font-size: 14px; }
+input[type="text"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+.payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.payment-card { border: 2px solid #ddd; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; }
+.payment-card.selected { border-color: #7b2cff; background: #f5f0ff; }
+.payment-card img { height: 35px; margin-bottom: 5px; }
+.payment-card small { display: block; font-size: 12px; color: #666; }
+.buy-now-btn { width: 100%; padding: 14px; background: #7b2cff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 15px; }
+.balance-info { background: #f9f9f9; padding: 10px; border-radius: 8px; margin: 10px 0; font-size: 14px; }
+.close-modal { float: right; font-size: 24px; cursor: pointer; color: #666; }
+.payment-gateway { background: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+.pg-header { padding: 15px; text-align: right; }
+.pg-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
+.pg-body { flex: 1; padding: 20px; text-align: center; }
+.pg-wallet-icon { margin-bottom: 30px; }
+.circle-icon { width: 80px; height: 80px; border: 2px solid #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 40px; }
+.pg-mobile-btn { width: 100%; padding: 14px; background: #0066ff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; margin-bottom: 20px; cursor: pointer; }
+.pg-mobile-btn.selected { background: #004bb5; }
+.pg-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.pg-method { border: 1px solid #ddd; border-radius: 10px; padding: 15px; cursor: pointer; transition: 0.2s; }
+.pg-method.selected { border-color: #0066ff; background: #f0f7ff; }
+.pg-method img { height: 35px; object-fit: contain; }
+.pg-footer { padding: 15px; background: #f0f7ff; }
+.pg-pay-btn { width: 100%; padding: 15px; background: #0066ff; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.pg-pay-btn:disabled { background: #ccc; cursor: not-allowed; }
+.manual-pay { background: #f5f5f5; min-height: 100vh; }
+.mp-header { background: #fff; padding: 15px; font-size: 20px; font-weight: 700; }
+.mp-body { padding: 15px; }
+.mp-card { background: #e91e63; color: #fff; border-radius: 12px; padding: 20px; }
+.mp-card h3 { text-align: center; margin-bottom: 15px; font-size: 18px; }
+.mp-input { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; margin-bottom: 15px; }
+.mp-instructions { list-style: none; padding: 0; }
+.mp-instructions li { margin-bottom: 12px; line-height: 1.5; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 10px; }
+.mp-instructions strong { color: #ffeb3b; }
+.copy-btn { background: #555; color: #fff; border: none; padding: 4px 10px; border-radius: 5px; margin-left: 5px; cursor: pointer; font-size: 12px; }
+.verify-btn { width: 100%; padding: 14px; background: #d32f2f; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: 700; margin-top: 15px; cursor: pointer; }
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+.nav-item { text-align: center; color: #666; font-size: 12px; text-decoration: none; }
+.nav-item.active { color: #7b2cff; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <img src="logo.png" alt="Logo">
+  </div>
+  <button class="login-btn">2</button>
+</div>
+
+<div class="notice">
+  <strong>Notice:</strong><br>
+ ১৮ বছরের নিচে কেউ অর্ডার করবেন না!
+</div>
+
+<div class="slider">
+  <img src="banner.jpg" alt="Banner">
+</div>
+
+<h2 class="section-title">FREE FIRE</h2>
+<div class="products">
+  <div class="product" onclick="openModal('Free Fire - 200 Like', 35)">
+    <img src="like.jpg" alt="200 Like">
+    <p>Free Fire - 200 Like</p>
+    <span class="price">35</span>
+  </div>
+  <div class="product" onclick="openModal('UID TOPUP (BD)', 22)">
+    <img src="uid.jpg" alt="UID Topup">
+    <p>UID TOPUP (BD)</p>
+    <span class="price">22</span>
+  </div>
+  <div class="product" onclick="openModal('Weekly Offer', 158)">
+    <img src="weekly.jpg" alt="Weekly">
+    <p>Weekly Offer</p>
+    <span class="price">158</span>
+  </div>
+  <div class="product" onclick="openModal('Weekly Lite (BD)', 45)">
+    <img src="weeklylite.jpg" alt="Weekly Lite">
+    <p>Weekly Lite (BD)</p>
+    <span class="price">45</span>
+  </div>
+  <div class="product" onclick="openModal('Evo Access', 120)">
+    <img src="ebadge.jpg" alt="E-Badge">
+    <p>Evo Access</p>
+    <span class="price">120</span>
+  </div>
+  <div class="product" onclick="openModal('LEVEL UP PASS', 75)">
+    <img src="levelup.jpg" alt="Level Up">
+    <p>LEVEL UP PASS</p>
+    <span class="price">75</span>
+  </div>
+</div>
+
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle">Product Name</h3>
+    </div>
+    <div class="modal-body">
+      <div class="step">
+        <div class="step-title"><span>1</span> Select Recharge</div>
+        <div style="border: 2px solid #7b2cff; padding: 10px; border-radius: 8px; text-align: center; background: #f5f0ff;">
+          <strong id="selectedPackage">Package</strong><br>
+          <small>1 আইডিতে 1বার</small><br>
+          <strong style="color: #7b2cff;">BDT <span id="selectedPrice">0</span></strong>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-title"><span>2</span> Account Info</div>
+        <label>এখানে গেমের আইডি কোড দিন</label>
+        <input type="text" id="gameID" placeholder="এখানে গেমের আইডি কোড দিন">
+      </div>
+      <div class="step">
+        <div class="step-title"><span>3</span> Select one option</div>
+        <div class="payment-options">
+          <div class="payment-card selected" onclick="selectPayment('wallet', this)">
+            <img src="wallet.png" alt="Wallet">
+            <strong>Wallet Pay</strong>
+            <small>ওয়ালেট</small>
+          </div>
+          <div class="payment-card" onclick="selectPayment('auto', this)">
+            <img src="bkash.png" alt="Auto Payment">
+            <img src="nagad.png" alt="Auto Payment">
+            <strong>Auto Payment</strong>
+            <small>Instant Pay</small>
+          </div>
+        </div>
+      </div>
+      <div class="balance-info">
+        আপনার অ্যাকাউন্ট ব্যালেন্স: <span id="walletBalance">2.00</span>
+        <button onclick="refreshBalance()" style="float:right; border:none; background:none; cursor:pointer;">🔄</button>
+      </div>
+      <div class="balance-info">
+        প্রোডাক্ট কিনতে আপনার প্রয়োজন: <span id="needAmount">0</span>
+      </div>
+      <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="paymentModal">
+  <div class="payment-gateway">
+    <div class="pg-header">
+      <button onclick="closePaymentModal()">✕</button>
+    </div>
+    <div class="pg-body">
+      <div class="pg-wallet-icon">
+        <div class="circle-icon">💳</div>
+        <h3>Wallet</h3>
+      </div>
+      <button class="pg-mobile-btn" onclick="selectMethod('mobile', this)">Mobile Banking</button>
+      <div class="pg-methods">
+        <div class="pg-method" onclick="selectMethod('bkash', this)">
+          <img src="bkash.png" alt="bKash">
+        </div>
+        <div class="pg-method" onclick="selectMethod('nagad', this)">
+          <img src="nagad.png" alt="Nagad">
+        </div>
+      </div>
+    </div>
+    <div class="pg-footer">
+      <button class="pg-pay-btn" id="payBtn" onclick="processPayment()" disabled>
+        Pay <span id="payAmount">0.00</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="manualPayModal">
+  <div class="manual-pay">
+    <div class="mp-header">
+      <span><span id="payAmount2">0</span></span>
+    </div>
+    <div class="mp-body">
+      <div class="mp-card">
+        <h3>ট্রানজেকশন আইডি দিন</h3>
+        <input type="text" id="trxID" placeholder="ট্রানজেকশন আইডি দিন" class="mp-input">
+        <ul class="mp-instructions">
+          <li><span id="ussdCode">*247#</span> ডায়াল করে আপনার <span id="payMethodName">bKash</span> মোবাইল মেনুতে যান অথবা <span id="payMethodName2">bKash</span> অ্যাপে যান।</li>
+          <li><strong>"Send Money"</strong> -এ ক্লিক করুন।</li>
+          <li>প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুন: 
+            <strong id="payNumber">01873786543</strong> 
+            <button class="copy-btn" onclick="copyNumber()">Copy</button>
+          </li>
+          <li>টাকার পরিমাণ: <strong id="payAmount3">35</strong></li>
+          <li>নিশ্চিত করতে এখন আপনার <span id="payMethodName3">bKash</span> মোবাইল মেনু পিন লিখুন।</li>
+          <li>সবকিছু ঠিক থাকলে, আপনি <span id="payMethodName4">bKash</span> থেকে একটি নিশ্চিতকরণ বার্তা পাবেন।</li>
+          <li>এখন উপরের বক্সে আপনার <strong>Transaction ID</strong> দিন এবং নিচের VERIFY বাটনে ক্লিক করুন।</li>
+        </ul>
+        <button class="verify-btn" onclick="verifyPayment()">VERIFY</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <a href="#" class="nav-item active">Home</a>
+  <a href="#" class="nav-item">Add Money</a>
+  <a href="#" class="nav-item">My Orders</a>
+  <a href="#" class="nav-item">My Account</a>
+</div>
+
+<script>
+let currentPrice = 0;
+let currentProduct = '';
+let currentPayment = 'wallet';
+let walletBalance = 2.00;
+let selectedMethod = '';
+let bkashNumber = '01873786543';
+let nagadNumber = '01873786543';
+let currentPayNumber = '';
+let currentPayMethod = '';
+
+function openModal(name, price) {
+  document.getElementById('productModal').classList.add('active');
+  document.getElementById('modalTitle').innerText = name;
+  document.getElementById('selectedPackage').innerText = name;
+  document.getElementById('selectedPrice').innerText = price;
+  currentPrice = price;
+  currentProduct = name;
+  updateBalanceInfo();
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('active');
+}
+
+function selectPayment(type, el) {
+  currentPayment = type;
+  document.querySelectorAll('.payment-card').forEach(card => {
+    card.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  updateBalanceInfo();
+}
+
+function updateBalanceInfo() {
+  document.getElementById('walletBalance').innerText = walletBalance.toFixed(2);
+  let needAmount = 0;
+  if(currentPayment == 'wallet' && walletBalance < currentPrice) {
+    needAmount = currentPrice - walletBalance;
+  }
+  document.getElementById('needAmount').innerText = needAmount.toFixed(2);
+}
+
+function buyNow() {
+  let gameID = document.getElementById('gameID').value;
+  if(!gameID) {
+    alert('গেমের আইডি দিন');
+    return;
+  }
+  if(currentPayment == 'wallet') {
+    if(walletBalance >= currentPrice) {
+      walletBalance -= currentPrice;
+      alert('অর্ডার সফল!\n\nProduct: ' + currentProduct + '\nUID: ' + gameID + '\nPrice: ' + currentPrice);
+      closeModal();
+      updateBalanceInfo();
+    } else {
+      alert('ব্যালেন্স অপর্যাপ্ত!');
+    }
+  } else {
+    closeModal();
+    document.getElementById('paymentModal').classList.add('active');
+    document.getElementById('payAmount').innerText = currentPrice.toFixed(2);
+  }
+}
+
+function selectMethod(method, el) {
+  selectedMethod = method;
+  document.querySelectorAll('.pg-method').forEach(el => el.classList.remove('selected'));
+  document.querySelector('.pg-mobile-btn').classList.remove('selected');
+  
+  if(method == 'mobile') {
+    el.classList.add('selected');
+  } else if(method == 'bkash') {
+    document.querySelector('.pg-method:nth-child(1)').classList.add('selected');
+  } else if(method == 'nagad') {
+    document.querySelector('.pg-method:nth-child(2)').classList.add('selected');
+  }
+  document.getElementById('payBtn').disabled = false;
+}
+
+function closePaymentModal() {
+  document.getElementById('paymentModal').classList.remove('active');
+  selectedMethod = '';
+  document.getElementById('payBtn').disabled = true;
+  document.querySelectorAll('.pg-method').forEach(el => el.classList.remove('selected'));
+  document.querySelector('.pg-mobile-btn').classList.remove('selected');
+}
+
+function processPayment() {
+  if(!selectedMethod) {
+    alert('পেমেন্ট মেথড সিলেক্ট করুন');
+    return;
+  }
+  if(selectedMethod == 'mobile') {
+    alert('Mobile Banking API কানেক্ট করো');
+    return;
+  }
+  if(selectedMethod == 'bkash' || selectedMethod == 'nagad') {
+    closePaymentModal();
+    document.getElementById('manualPayModal').classList.add('active');
+    document.getElementById('payAmount2').innerText = currentPrice.toFixed(2);
+    document.getElementById('payAmount3').innerText = currentPrice.toFixed(2);
+    if(selectedMethod == 'bkash') {
+      currentPayMethod = 'bKash';
+      currentPayNumber = bkashNumber;
+      document.querySelector('.mp-card').style.background = '#e91e63';
+    }
+    if(selectedMethod == 'nagad') {
+      currentPayMethod = 'Nagad';
+      currentPayNumber = nagadNumber;
+      document.querySelector('.mp-card').style.background = '#d32f2f';
+    }
+    document.getElementById('payNumber').innerText = currentPayNumber;
+    document.getElementById('payMethodName').innerText = currentPayMethod;
+    document.getElementById('payMethodName2').innerText = currentPayMethod;
+    document.getElementById('payMethodName3').innerText = currentPayMethod;
+    document.getElementById('payMethodName4').innerText = currentPayMethod;
+    let ussdCode = selectedMethod == 'bkash' ? '*247#' : '*167#';
+    document.getElementById('ussdCode').innerText = ussdCode;
+  }
+}
+
+function verifyPayment() {
+  let trxID = document.getElementById('trxID').value.trim();
+  if(!trxID) {
+    alert('ট্রানজেকশন আইডি দিন');
+    return;
+  }
+  if(trxID.length < 6) {
+    alert('সঠিক ট্রানজেকশন আইডি দিন');
+    return;
+  }
+  alert('ভেরিফাই করা হচ্ছে...\n\nMethod: ' + currentPayMethod + '\nTrxID: ' + trxID + '\nAmount: ' + currentPrice);
+  // fetch('your-api-url/verify', { method: 'POST', body: JSON.stringify({trx_id: trxID, amount: currentPrice, method: selectedMethod}) })
+}
+
+function copyNumber() {
+  navigator.clipboard.writeText(currentPayNumber);
+  alert('নাম্বার কপি হয়েছে: ' + currentPayNumber);
+}
+
+function closeManualPayModal() {
+  document.getElementById('manualPayModal').classList.remove('active');
+  document.getElementById('trxID').value = '';
+}
+
+function refreshBalance() {
+  alert('ব্যালেন্স আপডেট হয়েছে');
+  updateBalanceInfo();
+}
+</script>
+</body>
+</html>
