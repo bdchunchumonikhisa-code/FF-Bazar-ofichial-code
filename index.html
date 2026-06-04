@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BD Diamond Shop – FF Topup</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0f2f8;--white:#fff;--purple:#6a0dad;--purple2:#9b30ff;--purple-light:#f3eeff;
+  --gold:#ffd700;--text:#1a1a2e;--muted:#777799;--green:#00a86b;--bkash:#e2136e;--nagad:#f05a28;
+  --card-shadow:0 2px 12px rgba(106,13,173,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Hind Siliguri',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:80px}
+.header{background:#fff;border-bottom:1px solid #e0e0f0;padding:0 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;height:58px;box-shadow:0 2px 12px rgba(106,13,173,0.08)}
+.logo-area{display:flex;align-items:center;gap:9px}
+.logo-flame{font-size:26px}
+.logo-text{font-family:'Orbitron',sans-serif;font-size:clamp(12px,3vw,16px);font-weight:900;background:linear-gradient(135deg,#ffd700,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
+.logo-sub{font-size:9px;color:var(--purple2);letter-spacing:2px;font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:9px}
+.wallet-btn{background:var(--purple);color:#fff;padding:6px 13px;border-radius:30px;font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:5px}
+.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff3c00,#ff6a00);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;color:#fff}
+.notice{background:var(--purple);color:#fff;padding:10px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;font-size:.8rem;line-height:1.5}
+.notice strong{font-size:.85rem;display:block;margin-bottom:2px}
+.notice-close{background:none;border:none;color:#fff;font-size:18px;cursor:pointer;flex-shrink:0}
+.banner-wrap{overflow:hidden;background:#1a0533}
+.banner-track{display:flex;transition:transform .5s ease}
+.banner-slide{min-width:100%;background:linear-gradient(135deg,#1a0533,#2d0a5e);display:flex;align-items:center;justify-content:center;padding:26px 20px;gap:14px}
+.banner-welcome{font-family:'Orbitron',sans-serif;font-size:clamp(20px,5vw,32px);font-weight:900;background:linear-gradient(135deg,#ffd700,#ff6a00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.banner-sub{font-size:.78rem;color:#d4b3ff;margin-top:4px;font-weight:600;letter-spacing:1px}
+.banner-tag{display:inline-block;margin-top:7px;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:1px}
+.banner-dots{display:flex;justify-content:center;gap:6px;padding:9px 0;background:#1a0533}
+.dot{width:18px;height:4px;border-radius:3px;background:rgba(255,255,255,0.25);cursor:pointer;transition:background .3s}
+.dot.active{background:#ffd700}
+.section-head{padding:20px 14px 10px;display:flex;align-items:center;gap:10px}
+.section-head h2{font-family:'Orbitron',sans-serif;font-size:clamp(14px,3.5vw,20px);font-weight:900;color:var(--text);letter-spacing:1px}
+.section-head-line{flex:1;height:2px;background:linear-gradient(90deg,var(--purple),transparent)}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 12px 12px;max-width:640px;margin:0 auto}
+.cat-card{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8e0f8;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:var(--card-shadow);animation:fadeUp .4s ease both}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(106,13,173,0.18)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.cat-card:nth-child(1){animation-delay:.05s}.cat-card:nth-child(2){animation-delay:.10s}.cat-card:nth-child(3){animation-delay:.15s}
+.cat-card:nth-child(4){animation-delay:.20s}.cat-card:nth-child(5){animation-delay:.25s}.cat-card:nth-child(6){animation-delay:.30s}.cat-card:nth-child(7){animation-delay:.35s}
+.cat-thumb{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-direction:column;gap:4px}
+.cat-thumb.likes{background:linear-gradient(135deg,#1a1a1a,#3a1a2a)}.cat-thumb.uid{background:linear-gradient(135deg,#0d0033,#3a0066)}
+.cat-thumb.weekly{background:linear-gradient(135deg,#001a33,#003366)}.cat-thumb.wklite{background:linear-gradient(135deg,#001a0d,#004d26)}
+.cat-thumb.levelup{background:linear-gradient(135deg,#1a0d00,#4d2600)}.cat-thumb.evo{background:linear-gradient(135deg,#1a0000,#4d0000)}
+.cat-thumb.elite{background:linear-gradient(135deg,#001a1a,#004d4d)}
+.thumb-emoji{font-size:2.6rem;filter:drop-shadow(0 0 10px rgba(255,215,0,0.55));z-index:1}
+.thumb-label{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:'Rajdhani',sans-serif;font-size:clamp(9px,2.2vw,11px);font-weight:700;color:#ffd700;letter-spacing:1px;z-index:1}
+.thumb-glow{position:absolute;width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,0,0.15),transparent 70%);top:50%;left:50%;transform:translate(-50%,-60%)}
+.gems-wrap{position:relative;width:64px;height:60px;z-index:1}
+.gem{position:absolute;clip-path:polygon(50% 0%,100% 38%,80% 100%,20% 100%,0% 38%)}
+.gem.g1{width:30px;height:26px;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#00e5ff,#0077ff);filter:drop-shadow(0 0 5px #00e5ff)}
+.gem.g2{width:24px;height:21px;top:18px;left:2px;background:linear-gradient(135deg,#a855f7,#7c3aed);filter:drop-shadow(0 0 4px #a855f7)}
+.gem.g3{width:24px;height:21px;top:18px;right:2px;background:linear-gradient(135deg,#fbbf24,#f59e0b);filter:drop-shadow(0 0 4px #fbbf24)}
+.gem.g4{width:20px;height:17px;top:36px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#10b981,#059669);filter:drop-shadow(0 0 3px #10b981)}
+.cat-label{padding:7px 7px 9px;text-align:center;font-size:clamp(9px,2.2vw,11px);font-weight:700;color:var(--text);line-height:1.3}
+.cat-label small{display:block;font-size:9px;color:var(--purple2);font-weight:600;margin-top:2px}
+.page{display:none}.page.active{display:block}
+.order-back{display:flex;align-items:center;gap:8px;padding:13px 14px 0;cursor:pointer;color:var(--purple);font-weight:700;font-size:.88rem;background:none;border:none;font-family:'Hind Siliguri',sans-serif}
+.product-banner{background:#fff;margin:12px;border-radius:14px;padding:13px;display:flex;align-items:center;gap:13px;border:1px solid #e8e0f8;box-shadow:var(--card-shadow)}
+.pb-thumb{width:72px;height:72px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem}
+.pb-thumb.likes{background:linear-gradient(135deg,#1a1a1a,#3a1a2a)}.pb-thumb.uid{background:linear-gradient(135deg,#0d0033,#3a0066)}
+.pb-thumb.weekly{background:linear-gradient(135deg,#001a33,#003366)}.pb-thumb.wklite{background:linear-gradient(135deg,#001a0d,#004d26)}
+.pb-thumb.levelup{background:linear-gradient(135deg,#1a0d00,#4d2600)}.pb-thumb.evo{background:linear-gradient(135deg,#1a0000,#4d0000)}
+.pb-thumb.elite{background:linear-gradient(135deg,#001a1a,#004d4d)}
+.pb-info h3{font-size:.98rem;font-weight:700;color:var(--text)}.pb-info p{font-size:.77rem;color:var(--muted);margin-top:3px}
+.step-card{background:#fff;margin:0 12px 12px;border-radius:14px;border:1px solid #e8e0f8;box-shadow:var(--card-shadow);overflow:hidden}
+.step-header{padding:14px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid #f0eaff}
+.step-num{width:30px;height:30px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-family:'Orbitron',sans-serif;font-size:.85rem;font-weight:900;color:#fff;flex-shrink:0}
+.step-title{font-size:1rem;font-weight:800;color:var(--text)}
+.step-body{padding:14px 16px}
+.pkg-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pkg-opt{border:2px solid #e0d0ff;border-radius:12px;padding:14px 10px;cursor:pointer;transition:all .2s;background:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:80px}
+.pkg-opt:hover,.pkg-opt.selected{border-color:var(--purple);background:var(--purple-light)}
+.pkg-opt-inner{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%}
+.pkg-opt-name{font-weight:800;font-size:.85rem;color:var(--text);line-height:1.3;text-align:center}
+.pkg-opt-sub{font-size:.7rem;color:var(--green);font-weight:600}
+.pkg-opt-price{font-family:'Orbitron',sans-serif;font-weight:900;font-size:.88rem;color:var(--purple);white-space:nowrap}
+.popular-badge{display:inline-block;margin-left:4px;background:linear-gradient(135deg,#ffd700,#ff6a00);color:#000;font-size:7px;font-weight:800;padding:1px 5px;border-radius:10px;vertical-align:middle}
+.how-order-link{display:flex;align-items:center;gap:6px;color:#ff6a00;font-size:.82rem;font-weight:700;margin-top:12px;cursor:pointer;text-decoration:none}
+.form-label{font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;display:block}
+.form-input{width:100%;background:#f8f5ff;border:1.5px solid #e0d0ff;border-radius:9px;padding:12px 14px;color:var(--text);font-family:'Hind Siliguri',sans-serif;font-size:.95rem;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--purple2)}
+.pay-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.pay-option-card{border:2px solid #e0d0ff;border-radius:10px;cursor:pointer;transition:all .2s;overflow:hidden;position:relative}
+.pay-option-card:hover{border-color:var(--purple2)}.pay-option-card.selected{border-color:var(--purple)}
+.pay-option-card.selected .pay-check{display:flex}
+.pay-check{display:none;position:absolute;top:6px;left:6px;width:22px;height:22px;border-radius:4px;background:var(--purple);align-items:center;justify-content:center;z-index:2}
+.pay-check svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:3}
+.wallet-card-inner{background:linear-gradient(135deg,#fff7e6,#fff);padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:100px;justify-content:center}
+.wallet-icon-wrap{display:flex;align-items:center;gap:6px}.wallet-bag{font-size:2rem}
+.wallet-brand{display:flex;flex-direction:column;align-items:flex-start}
+.wallet-brand-top{font-family:'Orbitron',sans-serif;font-size:.7rem;font-weight:900;color:var(--purple);letter-spacing:1px}
+.wallet-brand-tag{background:var(--purple);color:#fff;font-size:.6rem;font-weight:800;padding:1px 6px;border-radius:3px;letter-spacing:1px;margin-top:1px}
+.instant-card-inner{background:#fff;padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:100px;justify-content:center}
+.instant-logos{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:center}
+.logo-bkash{width:42px;height:32px;border-radius:4px;overflow:hidden;flex-shrink:0}
+.logo-nagad{width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.logo-rocket{width:36px;height:36px;border-radius:6px;overflow:hidden;flex-shrink:0;background:#7B2D8B;display:flex;align-items:center;justify-content:center}
+.instant-title{font-size:.85rem;font-weight:800;color:#0077cc;letter-spacing:.5px}
+.balance-info{margin-top:12px;display:flex;flex-direction:column;gap:5px}
+.balance-row{display:flex;align-items:center;gap:7px;font-size:.83rem;color:var(--muted)}
+.balance-row svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:2;flex-shrink:0}
+.balance-amt{color:var(--purple);font-weight:700}.balance-need{color:var(--text);font-weight:700}
+.buy-now-btn{width:100%;background:var(--purple);color:#fff;border:none;border-radius:10px;padding:15px;font-family:'Hind Siliguri',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(106,13,173,0.3);margin-top:14px;letter-spacing:.5px}
+.buy-now-btn:hover{transform:translateY(-2px);box-shadow:0 7px 20px rgba(106,13,173,0.4)}
+.rules-card{background:#fff;margin:0 12px 12px;border-radius:14px;border:1px solid #e8e0f8;box-shadow:var(--card-shadow);overflow:hidden}
+.rules-header{padding:13px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f0eaff}
+.rules-header svg{width:20px;height:20px;stroke:var(--purple);fill:none;stroke-width:2}
+.rules-header span{font-size:.95rem;font-weight:800;color:var(--text)}
+.rules-body{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.rule-item{display:flex;align-items:flex-start;gap:8px;font-size:.83rem;color:#333;line-height:1.55}
+.rule-dot{width:18px;height:18px;border-radius:50%;background:var(--purple-light);border:1.5px solid var(--purple2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.recent-section{padding:20px 14px 10px}
+.recent-title{font-family:'Orbitron',sans-serif;font-size:clamp(13px,3vw,16px);font-weight:900;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.recent-list{display:flex;flex-direction:column;gap:9px;padding:0 0 4px}
+.recent-item{background:#fff;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:11px;border:1px solid #e8e0f8;box-shadow:var(--card-shadow)}
+.recent-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,#e0d0ff,#c0a0ff);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:var(--purple)}
+.recent-info{flex:1}.recent-name{font-weight:700;font-size:.88rem;color:var(--text)}.recent-pkg{font-size:.78rem;color:var(--muted);margin-top:2px}
+.recent-badge{font-size:.72rem;font-weight:700;padding:4px 11px;border-radius:20px;background:#d4edda;color:#155724;white-space:nowrap}
+.gplay-section{padding:22px 14px;text-align:center;background:#fff;margin:0 12px 14px;border-radius:14px;border:1px solid #e8e0f8;box-shadow:var(--card-shadow)}
+.gplay-title{font-family:'Orbitron',sans-serif;font-size:clamp(13px,3.5vw,16px);font-weight:900;color:var(--text);margin-bottom:14px;letter-spacing:1px}
+.gplay-btn{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;border-radius:10px;padding:10px 20px;text-decoration:none;cursor:pointer;border:none;max-width:260px;width:100%}
+.gplay-icon{width:28px;height:28px}.gplay-text-wrap{text-align:left}
+.gplay-small{font-size:.65rem;color:rgba(255,255,255,0.8);letter-spacing:.5px;text-transform:uppercase}
+.gplay-big{font-size:1rem;font-weight:700;color:#fff;line-height:1.1}
+/* STAY CONNECTED */
+.connect-section{background:#0d1b3e;padding:28px 16px}
+.connect-title{font-family:'Orbitron',sans-serif;font-size:clamp(14px,3.5vw,18px);font-weight:900;color:#fff;letter-spacing:2px;margin-bottom:16px}
+.social-icons{display:flex;gap:12px;flex-wrap:wrap}
+.social-btn{width:50px;height:50px;border-radius:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;text-decoration:none}
+.social-btn:hover{background:rgba(255,255,255,0.2)}.social-btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+.support-title{font-family:'Orbitron',sans-serif;font-size:clamp(14px,3.5vw,18px);font-weight:900;color:#fff;letter-spacing:2px;margin:22px 0 12px}
+.support-card{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px}
+.support-tg{width:42px;height:42px;border-radius:50%;background:#229ED9;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.support-tg svg{width:22px;height:22px;fill:#fff;stroke:none}
+.support-time{font-size:.88rem;font-weight:700;color:#fff}.support-sub{font-size:.78rem;color:rgba(255,255,255,0.6);margin-top:2px}
+/* HELP BUTTON */
+.help-btn{position:fixed;bottom:88px;right:14px;z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.help-label{background:var(--bkash);color:#fff;font-size:.78rem;font-weight:700;padding:6px 12px;border-radius:20px;cursor:pointer}
+.help-circle{width:48px;height:48px;border-radius:50%;background:var(--bkash);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(226,19,110,0.4)}
+.help-circle svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2}
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:300;background:#fff;border-top:1px solid #e8e0f8;display:flex;box-shadow:0 -3px 12px rgba(106,13,173,0.07)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7px 4px 6px;cursor:pointer;gap:3px;font-size:10px;font-weight:700;color:var(--muted);transition:color .2s;border:none;background:none;font-family:'Hind Siliguri',sans-serif}
+.nav-item.active{color:var(--purple)}.nav-item svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2}
+.nav-item.active svg{stroke:var(--purple)}
+.empty-state{text-align:center;padding:55px 20px;color:var(--muted)}
+.ohi{background:#fff;margin:0 12px 9px;border-radius:12px;padding:13px 15px;border:1px solid #e8e0f8;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--card-shadow)}
+.ohi-id{font-family:'Orbitron',sans-serif;font-size:.72rem;color:var(--purple);font-weight:700}
+.ohi-pkg{font-size:.88rem;font-weight:700;color:var(--text);margin-top:2px}.ohi-date{font-size:.72rem;color:var(--muted);margin-top:2px}
+.status-pill{font-size:.72rem;font-weight:700;padding:4px 11px;border-radius:20px}
+.status-pending{background:#fff3cd;color:#856404}.status-done{background:#d4edda;color:#155724}
+/* PAYMENT OVERLAY */
+.pay-overlay{position:fixed;inset:0;z-index:500;background:#e8ecf5;display:none;flex-direction:column;overflow-y:auto}
+.pay-overlay.open{display:flex}
+.pay-topbar{background:#fff;padding:0 16px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e0e0f0;flex-shrink:0}
+.pay-topbar-left{display:flex;align-items:center;gap:8px}
+.pay-back-btn{width:36px;height:36px;border-radius:50%;border:none;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#555}
+.pay-back-btn svg{width:20px;height:20px;stroke:#555;fill:none;stroke-width:2}
+.pay-topbar-right{display:flex;gap:8px}
+.pay-topbar-icon{width:36px;height:36px;border-radius:8px;border:1.5px solid #ddd;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.pay-topbar-icon svg{width:18px;height:18px;stroke:#777;fill:none;stroke-width:2}
+.pay-close-x{width:36px;height:36px;border-radius:50%;border:none;background:none;font-size:1.3rem;cursor:pointer;color:#555;display:flex;align-items:center;justify-content:center}
+.choose-method-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:30px 16px 100px}
+.wallet-circle-outer{width:118px;height:118px;border-radius:50%;border:2px solid #c8d4e8;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-bottom:16px;box-shadow:0 2px 16px rgba(0,0,0,0.07)}
+.wallet-circle-outer svg{width:38px;height:38px;stroke:#b0b8d0;fill:none;stroke-width:1.5}
+.wallet-text{font-size:1.4rem;font-weight:700;color:#8890a8;margin-bottom:22px;letter-spacing:.5px}
+.mobile-bank-btn{width:100%;max-width:420px;background:#1a3a8a;color:#fff;border:none;border-radius:10px;padding:16px;font-family:'Hind Siliguri',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-bottom:18px}
+.method-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:420px}
+.method-card{background:#fff;border:2px solid #e0e8f0;border-radius:14px;padding:20px 14px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,box-shadow .2s;min-height:88px}
+.method-card:hover{border-color:var(--purple2);box-shadow:0 4px 14px rgba(106,13,173,0.12)}
+.method-card.active-method{border-color:#6a0dad;box-shadow:0 4px 14px rgba(106,13,173,0.18)}
+.bkash-wrap{display:flex;align-items:center;gap:9px}
+.bkash-bird-svg{width:40px;height:40px;flex-shrink:0}
+.bkash-name{font-size:1.15rem;font-weight:800;color:#E2136E;font-family:Arial,sans-serif;font-style:italic;letter-spacing:-.5px}
+.nagad-wrap{display:flex;align-items:center;gap:9px}
+.nagad-circle-svg{width:42px;height:42px;flex-shrink:0}
+.nagad-name{font-size:1.05rem;font-weight:800;color:#333;font-family:'Hind Siliguri',sans-serif}
+.tx-page{display:none;flex:1;flex-direction:column;overflow-y:auto}
+.tx-page.open{display:flex}
+.tx-body{flex:1;padding:0 16px 100px;display:flex;flex-direction:column;gap:12px}
+.tx-info-box{background:#fff;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:1px solid #e0e8f0}
+.tx-wallet-icon{width:48px;height:48px;border-radius:10px;background:#f0f2f8;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.tx-wallet-label{font-size:1rem;font-weight:700;color:#333}
+.tx-amount-box{background:#fff;border-radius:12px;padding:16px;border:1px solid #e0e8f0}
+.tx-amount{font-size:1.6rem;font-weight:700;color:#555;font-family:'Rajdhani',sans-serif}
+.tx-currency{font-size:1.1rem;margin-right:4px}
+.tx-instruction-panel{border-radius:14px;padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.tx-instruction-panel.bkash-panel{background:#E2136E}
+.tx-instruction-panel.nagad-panel{background:#c0392b}
+.tx-panel-title{font-size:1.05rem;font-weight:800;color:#fff;text-align:center;font-family:'Hind Siliguri',sans-serif;margin-bottom:4px}
+.tx-input-wrap{background:#fff;border-radius:10px;padding:4px 14px;margin-bottom:4px}
+.tx-input{width:100%;border:none;outline:none;font-family:'Hind Siliguri',sans-serif;font-size:.95rem;color:#333;padding:12px 0;background:transparent}
+.tx-input::placeholder{color:#bbb}
+.tx-step{display:flex;align-items:flex-start;gap:10px;font-size:.88rem;color:#fff;line-height:1.5;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.25)}
+.tx-step:last-child{border-bottom:none;padding-bottom:0}
+.tx-bullet{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;margin-top:6px}
+.tx-number-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tx-number{font-weight:800;font-size:1rem;color:#ffd700;letter-spacing:1px}
+.copy-btn{background:rgba(255,255,255,0.2);border:none;color:#fff;padding:5px 12px;border-radius:6px;font-size:.8rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;font-family:'Hind Siliguri',sans-serif}
+.copy-btn svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2}
+.send-money-text{color:#ffd700;font-weight:800}
+.tx-highlight{font-weight:800;color:#ffd700}
+.verify-btn{width:100%;background:#c0392b;color:#fff;border:none;border-radius:10px;padding:16px;font-family:'Hind Siliguri',sans-serif;font-size:1.1rem;font-weight:800;cursor:pointer;margin-top:8px;letter-spacing:.5px;transition:opacity .2s}
+.verify-btn.bkash-verify{background:#c0105a}
+.verify-btn:hover{opacity:.9}
+.verify-btn:disabled{opacity:.6;cursor:not-allowed}
+.pay-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e0e0f0;padding:14px 20px 24px;z-index:501;box-shadow:0 -4px 20px rgba(0,0,0,0.08)}
+.pay-footer-amount{font-size:1.4rem;font-weight:800;color:#1a3a8a;text-align:center;letter-spacing:.5px;margin-bottom:8px}
+.pay-footer-confirm{width:100%;background:#1a3a8a;color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Hind Siliguri',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;display:none}
+.pay-footer-confirm.visible{display:block}
+.modal-overlay{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:22px 22px 0 0;padding:30px 22px 38px;width:100%;max-width:500px;text-align:center;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-icon{font-size:3.2rem;margin-bottom:10px;display:block}
+.modal-title{font-weight:800;font-size:1.15rem;color:var(--green);margin-bottom:7px}
+.modal-desc{color:var(--muted);font-size:.87rem;line-height:1.7;margin-bottom:13px}
+.modal-oid{background:#f3eeff;border:1.5px dashed var(--purple2);border-radius:9px;padding:10px;font-family:'Orbitron',sans-serif;font-size:.82rem;color:var(--purple);margin-bottom:18px;letter-spacing:2px}
+.modal-close-btn{width:100%;background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;border:none;border-radius:10px;padding:13px;font-family:'Hind Siliguri',sans-serif;font-size:.97rem;font-weight:700;cursor:pointer}
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%) translateY(-8px);background:#fff;border:1.5px solid #e0d0ff;border-radius:10px;padding:10px 20px;font-size:.85rem;font-weight:700;opacity:0;transition:opacity .3s,transform .3s;z-index:700;pointer-events:none;box-shadow:0 4px 14px rgba(106,13,173,0.13);white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success{color:var(--green);border-color:rgba(0,168,107,.3)}.toast.error{color:#e53e3e;border-color:rgba(229,62,62,.3)}
+@keyframes floatDot{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.1)}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-area">
+    <span class="logo-flame">💎</span>
+    <div>
+      <div class="logo-text">BD DIAMOND</div>
+      <div class="logo-sub">FF Topup Store</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <button class="wallet-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 12h.01"/></svg>
+      ব্যালেন্স
+    </button>
+    <div class="avatar">B</div>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div id="homePage" class="page active">
+  <div class="notice" id="noticeBar">
+    <div><strong>Notice:</strong>১৮ বছরের নিচে কেউ অর্ডার করবেন না! বাবা/মা বা ফ্যামিলির টাকা চুরি করে অর্ডার করলে তার বিরুদ্ধে আইনগত ব্যবস্থা নেওয়া হবে!</div>
+    <button class="notice-close" onclick="document.getElementById('noticeBar').style.display='none'">✕</button>
+  </div>
+  <div class="banner-wrap">
+    <div class="banner-track" id="bannerTrack">
+      <div class="banner-slide"><div style="text-align:center"><div style="font-size:10px;color:#d4b3ff;letter-spacing:3px;font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:5px">TOP UP YOUR GAME CURRENCIES</div><div class="banner-welcome">WELCOME</div><div class="banner-sub">BD Diamond Shop</div><div class="banner-tag">দামে কম, মানে সেরা</div></div></div>
+      <div class="banner-slide"><div style="text-align:center"><div style="font-size:2.2rem;margin-bottom:8px">⚡</div><div class="banner-welcome" style="font-size:clamp(17px,5vw,26px)">INSTANT DELIVERY</div><div class="banner-sub">মাত্র ৫ মিনিটে ডায়মন্ড পান</div><div class="banner-tag">bKash ও Nagad সাপোর্ট</div></div></div>
+      <div class="banner-slide"><div style="text-align:center"><div style="font-size:2.2rem;margin-bottom:8px">🏆</div><div class="banner-welcome" style="font-size:clamp(17px,5vw,26px)">5000+ ORDERS</div><div class="banner-sub">বাংলাদেশের বিশ্বস্ত টপআপ স্টোর</div><div class="banner-tag">100% Trusted</div></div></div>
+      <div class="banner-slide" onclick="window.open('https://t.me/FFbazar24','_blank')" style="cursor:pointer;background:linear-gradient(135deg,#0d0030,#2a005e,#0d0030);position:relative;overflow:hidden">
+        <div style="position:absolute;top:8%;left:4%;font-size:1.1rem;animation:floatDot 2s infinite">🎁</div>
+        <div style="position:absolute;top:10%;right:6%;font-size:1rem;animation:floatDot 2.4s infinite .3s">🎊</div>
+        <div style="position:absolute;bottom:12%;left:8%;font-size:1rem;animation:floatDot 1.9s infinite .5s">🎉</div>
+        <div style="position:absolute;bottom:10%;right:5%;font-size:1.1rem;animation:floatDot 2.2s infinite .1s">🎁</div>
+        <div style="text-align:center;z-index:2;position:relative;padding:4px 14px">
+          <div style="font-size:.68rem;color:#c9a0ff;letter-spacing:2.5px;font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:5px">গিভওয়ে ও সকল অফার সম্পর্কে জানতে</div>
+          <div style="font-family:'Hind Siliguri',sans-serif;font-size:clamp(17px,5vw,24px);font-weight:900;background:linear-gradient(135deg,#ffd700,#ffaa00,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.25;margin-bottom:8px">গিভওয়ে ও<br>সকল অফার</div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:#fff;border-radius:10px;padding:7px 16px;border:2.5px solid #229ED9;margin-bottom:6px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#229ED9"><path d="M21.7 3.3L1 11.6c-.5.2-.5.9 0 1.1l5.1 1.7 2 6.3c.1.4.6.5.9.2l3-2.8 5.1 3.8c.4.3.9.1 1-.3L23 4.3c.2-.6-.3-1.2-.9-1z"/></svg>
+            <span style="font-family:'Hind Siliguri',sans-serif;font-size:.9rem;font-weight:900;color:#229ED9">টেলিগ্রাম চ্যানেলে</span>
+          </div>
+          <div style="font-size:.82rem;color:#fff;font-weight:700">জয়েন করুন!</div>
+        </div>
+      </div>
+    </div>
+    <div class="banner-dots" id="bannerDots">
+      <div class="dot active" onclick="goSlide(0)"></div>
+      <div class="dot" onclick="goSlide(1)"></div>
+      <div class="dot" onclick="goSlide(2)"></div>
+      <div class="dot" onclick="goSlide(3)"></div>
+    </div>
+  </div>
+  <div class="section-head"><h2>🎮 FREE FIRE</h2><div class="section-head-line"></div></div>
+  <div class="cat-grid">
+    <div class="cat-card" onclick="openCat('likes')">
+      <div class="cat-thumb likes"><div class="thumb-glow"></div><span class="thumb-emoji">👍</span><div style="font-family:'Orbitron',sans-serif;font-size:clamp(11px,2.5vw,14px);font-weight:900;color:#ffd700;z-index:1">200</div><div class="thumb-label">FF LIKE</div></div>
+      <div class="cat-label">Free Fire – 200 Like<small>প্রতিদিন ১ আইডিতে ১ বার</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('uid')">
+      <div class="cat-thumb uid"><div class="thumb-glow"></div><div class="gems-wrap"><div class="gem g1"></div><div class="gem g2"></div><div class="gem g3"></div><div class="gem g4"></div></div><div class="thumb-label">UID TOPUP</div></div>
+      <div class="cat-label">UID TOPUP (BD)<small>সরাসরি একাউন্টে</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('weekly')">
+      <div class="cat-thumb weekly"><div class="thumb-glow"></div><span class="thumb-emoji">📅</span><div class="thumb-label">WEEKLY/MONTHLY</div></div>
+      <div class="cat-label">Weekly/Monthly<small>অফার প্যাকেজ</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('wklite')">
+      <div class="cat-thumb wklite"><div class="thumb-glow"></div><span class="thumb-emoji">🟢</span><div class="thumb-label">WEEKLY LITE</div></div>
+      <div class="cat-label">Weekly Lite<small>BD Server</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('levelup')">
+      <div class="cat-thumb levelup"><div class="thumb-glow"></div><span class="thumb-emoji">⬆️</span><div class="thumb-label">LEVEL UP</div></div>
+      <div class="cat-label">Level Up Pass<small>১ থেকে ৩০ পর্যন্ত</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('evo')">
+      <div class="cat-thumb evo"><div class="thumb-glow"></div><span class="thumb-emoji">🔥</span><div class="thumb-label">EVO PASS</div></div>
+      <div class="cat-label">Evo Pass<small>Evolution Pass</small></div>
+    </div>
+    <div class="cat-card" onclick="openCat('elite')">
+      <div class="cat-thumb elite"><div class="thumb-glow"></div><span class="thumb-emoji">⭐</span><div class="thumb-label">ELITE PASS</div></div>
+      <div class="cat-label">Elite Pass<small>প্রিমিয়াম পাস</small></div>
+    </div>
+  </div>
+  <div class="recent-section">
+    <div class="recent-title">✅ সাম্প্রতিক অর্ডার</div>
+    <div class="recent-list">
+      <div class="recent-item"><div class="recent-avatar">R</div><div class="recent-info"><div class="recent-name">Rakib Hassan</div><div class="recent-pkg">610 Diamond – ৳400</div></div><div class="recent-badge">Completed</div></div>
+      <div class="recent-item"><div class="recent-avatar">S</div><div class="recent-info"><div class="recent-name">Sabbir Ahmed</div><div class="recent-pkg">Monthly – ৳790</div></div><div class="recent-badge">Completed</div></div>
+      <div class="recent-item"><div class="recent-avatar">N</div><div class="recent-info"><div class="recent-name">MD Nahid Hossan</div><div class="recent-pkg">50 Diamond – ৳36</div></div><div class="recent-badge">Completed</div></div>
+      <div class="recent-item"><div class="recent-avatar">T</div><div class="recent-info"><div class="recent-name">Tanvir Islam</div><div class="recent-pkg">Weekly Lite – ৳45</div></div><div class="recent-badge">Completed</div></div>
+      <div class="recent-item"><div class="recent-avatar">F</div><div class="recent-info"><div class="recent-name">Fahim Hossain</div><div class="recent-pkg">200 FF Like – ৳35</div></div><div class="recent-badge">Completed</div></div>
+    </div>
+  </div>
+  <div class="gplay-section">
+    <div class="gplay-title">DOWNLOAD OUR MOBILE APP</div>
+    <button class="gplay-btn" onclick="showToast('App শীঘ্রই আসছে!','success')">
+      <svg class="gplay-icon" viewBox="0 0 24 24"><path d="M3.18 23.76c.27.15.57.23.88.23.35 0 .69-.1.99-.28l13.1-7.57-3.08-3.07-11.89 10.69z" fill="#EA4335"/><path d="M21.37 9.82L18.14 7.96l-3.44 3.44 3.44 3.44 3.26-1.88c.93-.54.93-2.6-.03-3.14z" fill="#FBBC05"/><path d="M3.18.24C2.89.4 2.68.72 2.68 1.1v21.8c0 .38.2.7.5.86l12.07-11.86L3.18.24z" fill="#4285F4"/><path d="M4.06.19L17.15 7.76l-3.08 3.07L2.18.14c.3-.18.64-.1.88.05z" fill="#34A853"/></svg>
+      <div class="gplay-text-wrap"><div class="gplay-small">GET IT ON</div><div class="gplay-big">Google Play</div></div>
+    </button>
+  </div>
+
+  <!-- STAY CONNECTED -->
+  <div class="connect-section">
+    <div class="connect-title">STAY CONNECTED</div>
+    <div class="social-icons">
+      <!-- Facebook – আপনার পেজে যাবে -->
+      <a href="https://www.facebook.com/profile.php?id=61571929360188" target="_blank" class="social-btn" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/chunchumoni" target="_blank" class="social-btn" title="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@chunchumoni" target="_blank" class="social-btn" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.94 29 29 0 00.46-5.29 29 29 0 00-.46-5.45z" fill="#fff" stroke="none"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0d1b3e" stroke="none"/></svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:eshankhisaa@gmail.com" class="social-btn" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+
+    <div class="support-title">SUPPORT CENTER</div>
+    <a href="https://t.me/Chunchumoni" target="_blank" style="text-decoration:none;display:block">
+      <div class="support-card" style="cursor:pointer">
+        <div class="support-tg"><svg viewBox="0 0 24 24"><path d="M21.7 3.3L1 11.6c-.5.2-.5.9 0 1.1l5.1 1.7 2 6.3c.1.4.6.5.9.2l3-2.8 5.1 3.8c.4.3.9.1 1-.3L23 4.3c.2-.6-.3-1.2-.9-1z"/></svg></div>
+        <div>
+          <div class="support-time">Help line [9AM-12PM]</div>
+          <div class="support-sub">টেলিগ্রামে সাপোর্ট</div>
+          <div style="font-size:.75rem;color:#229ED9;font-weight:700;margin-top:3px">t.me/Chunchumoni →</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- FOOTER -->
+    <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,0.45);line-height:1.9">
+      © BD Diamond Shop 2026 | All Rights Reserved<br>
+      Developed by <strong style="color:rgba(255,255,255,0.8)">Chun chu moni</strong>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER PAGE -->
+<div id="orderPage" class="page">
+  <button class="order-back" onclick="goHome()">← ফিরে যান</button>
+  <div class="product-banner">
+    <div class="pb-thumb" id="pbThumb"></div>
+    <div class="pb-info"><h3 id="pbTitle"></h3><p id="pbDesc">Game / Top up</p></div>
+  </div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-num">1</div><div class="step-title">Select Recharge</div></div>
+    <div class="step-body">
+      <div class="pkg-options" id="pkgOptions"></div>
+      <a class="how-order-link" href="#">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        কিভাবে অর্ডার করবেন? →
+      </a>
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-num">2</div><div class="step-title">Account Info</div></div>
+    <div class="step-body">
+      <label class="form-label">প্লেয়ার আইডি বসান</label>
+      <input class="form-input" type="text" id="ffUID" placeholder="প্লেয়ার আইডি বসান" maxlength="12">
+    </div>
+  </div>
+  <div class="step-card">
+    <div class="step-header"><div class="step-num">3</div><div class="step-title">Select one option</div></div>
+    <div class="step-body">
+      <div class="pay-options">
+        <div class="pay-option-card" id="payWallet" onclick="selectPay('wallet')">
+          <div class="pay-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="wallet-card-inner">
+            <div class="wallet-icon-wrap"><span class="wallet-bag">🛍️</span><div class="wallet-brand"><div class="wallet-brand-top">BD DIAMOND</div><div class="wallet-brand-tag">ওয়ালেট</div></div></div>
+          </div>
+          <div style="background:#eee;text-align:center;padding:6px 0;font-size:.8rem;font-weight:700;color:#555">Wallet Pay</div>
+        </div>
+        <div class="pay-option-card selected" id="payInstant" onclick="selectPay('instant')">
+          <div class="pay-check" style="display:flex"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="instant-card-inner">
+            <div class="instant-logos">
+              <!-- bKash Official Logo -->
+              <div class="logo-bkash">
+                <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" fill="#E2136E" rx="6"/><text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="18" font-style="italic">bKash</text></svg>
+              </div>
+              <!-- Nagad Official Logo -->
+              <div class="logo-nagad">
+                <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="40" fill="#F05A28"/><circle cx="40" cy="40" r="28" fill="#E8251A"/><ellipse cx="40" cy="32" rx="12" ry="16" fill="#FFB300"/><ellipse cx="40" cy="35" rx="8" ry="10" fill="#FF6F00"/><circle cx="40" cy="40" r="6" fill="#E8251A"/></svg>
+              </div>
+              <!-- Rocket Logo -->
+              <div class="logo-rocket">
+                <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><rect width="80" height="80" rx="10" fill="#7B2D8B"/><text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="10">ROCKET</text><text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#FFD700" font-family="Arial" font-weight="bold" font-size="8">DBBL</text></svg>
+              </div>
+            </div>
+            <div class="instant-title">Auto Payment</div>
+          </div>
+          <div style="background:#eee;text-align:center;padding:6px 0;font-size:.8rem;font-weight:700;color:#555">Instant Pay</div>
+        </div>
+      </div>
+      <div class="balance-info">
+        <div class="balance-row">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          আপনার অ্যাকাউন্ট ব্যালেন্স <span class="balance-amt">৳ 0.00</span>
+        </div>
+        <div class="balance-row">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          প্রোডাক্ট কিনতে আপনার প্রয়োজন <span class="balance-need" id="needAmt">৳ 0</span>
+        </div>
+      </div>
+      <button class="buy-now-btn" onclick="submitOrder()">Buy Now</button>
+    </div>
+  </div>
+  <div class="rules-card">
+    <div class="rules-header">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span>Rules &amp; Conditions</span>
+    </div>
+    <div class="rules-body" id="rulesBody"></div>
+  </div>
+
+  <!-- STAY CONNECTED (Order Page) -->
+  <div class="connect-section" style="margin:0 0 0 0;border-radius:0">
+    <div class="connect-title">STAY CONNECTED</div>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/profile.php?id=61571929360188" target="_blank" class="social-btn" title="Facebook">
+        <svg viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/chunchumoni" target="_blank" class="social-btn" title="Instagram">
+        <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="https://www.youtube.com/@chunchumoni" target="_blank" class="social-btn" title="YouTube">
+        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.94 29 29 0 00.46-5.29 29 29 0 00-.46-5.45z" fill="#fff" stroke="none"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#0d1b3e" stroke="none"/></svg>
+      </a>
+      <a href="mailto:eshankhisaa@gmail.com" class="social-btn" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+
+    <div class="support-title">SUPPORT CENTER</div>
+    <a href="https://t.me/Chunchumoni" target="_blank" style="text-decoration:none;display:block">
+      <div class="support-card" style="cursor:pointer">
+        <div class="support-tg"><svg viewBox="0 0 24 24"><path d="M21.7 3.3L1 11.6c-.5.2-.5.9 0 1.1l5.1 1.7 2 6.3c.1.4.6.5.9.2l3-2.8 5.1 3.8c.4.3.9.1 1-.3L23 4.3c.2-.6-.3-1.2-.9-1z"/></svg></div>
+        <div>
+          <div class="support-time">Help line [9AM-12PM]</div>
+          <div class="support-sub">টেলিগ্রামে সাপোর্ট</div>
+          <div style="font-size:.75rem;color:#229ED9;font-weight:700;margin-top:3px">t.me/Chunchumoni →</div>
+        </div>
+      </div>
+    </a>
+    <!-- সাহায্য লাগবে + call বাটন -->
+    <div style="display:flex;align-items:center;gap:10px;margin-top:14px">
+      <a href="https://t.me/Chunchumoni" target="_blank" style="flex:1;background:linear-gradient(135deg,#e53e3e,#c53030);color:#fff;border:none;border-radius:9px;padding:13px;font-family:'Hind Siliguri',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;text-align:center;text-decoration:none;display:block">সাহায্য লাগবে ?</a>
+      <a href="tel:+8801873786543" style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#e53e3e,#c53030);display:flex;align-items:center;justify-content:center;flex-shrink:0;text-decoration:none">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.9 11.6 19.79 19.79 0 01.87 2.98 2 2 0 012.86 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      </a>
+    </div>
+
+    <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);text-align:center;font-size:.75rem;color:rgba(255,255,255,0.45);line-height:1.9">
+      © BD Diamond Shop 2026 | All Rights Reserved<br>
+      Developed by <strong style="color:rgba(255,255,255,0.8)">Chun chu moni</strong>
+    </div>
+  </div>
+
+</div>
+
+<!-- ORDERS PAGE -->
+<div id="ordersPage" class="page">
+  <div class="section-head"><h2>📦 My Orders</h2></div>
+  <div id="orderHistoryList">
+    <div class="empty-state">
+      <div style="font-size:3rem;margin-bottom:12px">📦</div>
+      <div style="font-weight:700;font-size:.98rem;margin-bottom:5px">কোনো অর্ডার নেই</div>
+      <div style="font-size:.83rem">এখনো কোনো অর্ডার করেননি</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT OVERLAY -->
+<div class="pay-overlay" id="payOverlay">
+  <div class="pay-topbar">
+    <div class="pay-topbar-left">
+      <button class="pay-back-btn" onclick="closePayOverlay()">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </button>
+    </div>
+    <span style="font-size:.87rem;font-weight:700;color:#444">Secure Checkout – Wallet</span>
+    <div class="pay-topbar-right">
+      <div class="pay-topbar-icon"><svg viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></div>
+      <button class="pay-close-x" onclick="closePayOverlay()">✕</button>
+    </div>
+  </div>
+  <div class="choose-method-body">
+    <div class="wallet-circle-outer">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M16 12h.01"/></svg>
+    </div>
+    <div class="wallet-text">Wallet</div>
+    <button class="mobile-bank-btn">Mobile Banking</button>
+    <div class="method-cards">
+      <div class="method-card" id="methodBkash" onclick="selectMethod('bkash')">
+        <div class="bkash-wrap">
+          <svg class="bkash-bird-svg" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <rect width="80" height="80" rx="14" fill="#fce4ec"/>
+            <path d="M15 40 L40 10 L65 25 L50 42 L65 58 L40 72 L28 56 L40 42 Z" fill="#E2136E" opacity="0.9"/>
+            <path d="M40 10 L65 25 L50 42 L40 36 Z" fill="#C0105A"/>
+            <path d="M50 42 L65 58 L40 72 L40 58 Z" fill="#C0105A" opacity="0.7"/>
+          </svg>
+          <div class="bkash-name">bKash</div>
+        </div>
+      </div>
+      <div class="method-card" id="methodNagad" onclick="selectMethod('nagad')">
+        <div class="nagad-wrap">
+          <svg class="nagad-circle-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#F05A28"/>
+            <circle cx="50" cy="50" r="36" fill="#E8251A"/>
+            <ellipse cx="50" cy="40" rx="15" ry="20" fill="#FFB300"/>
+            <ellipse cx="50" cy="44" rx="10" ry="13" fill="#FF6F00"/>
+            <circle cx="50" cy="50" r="7" fill="#E8251A"/>
+          </svg>
+          <div class="nagad-name">নগদ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pay-footer" id="payFooter">
+    <div class="pay-footer-amount">Pay <span id="footerAmount">0.00</span></div>
+    <button class="pay-footer-confirm" id="payFooterConfirm" onclick="goToTxPage()">এখনই পেমেন্ট করুন →</button>
+  </div>
+</div>
+
+<!-- TRANSACTION PAGE -->
+<div class="pay-overlay" id="txOverlay" style="display:none;">
+  <div class="pay-topbar">
+    <div class="pay-topbar-left">
+      <button class="pay-back-btn" onclick="backToMethodChoice()">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="pay-topbar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg></div>
+    </div>
+    <button class="pay-close-x" onclick="closePayOverlay()">✕</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding-bottom:40px">
+    <div style="display:flex;justify-content:center;padding:22px 0 16px" id="txLogoArea"></div>
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:12px">
+      <div class="tx-info-box">
+        <div class="tx-wallet-icon"><span style="font-size:.7rem;color:#aaa;font-weight:700;">W</span></div>
+        <div class="tx-wallet-label">Wallet</div>
+      </div>
+      <div class="tx-amount-box">
+        <div class="tx-amount"><span class="tx-currency">৳</span><span id="txAmtDisplay">0</span></div>
+      </div>
+      <div class="tx-instruction-panel" id="txPanel">
+        <div class="tx-panel-title">ট্রান্সেজকশন আইডি দিন</div>
+        <div class="tx-input-wrap">
+          <input class="tx-input" type="text" id="txIdInput" placeholder="ট্রান্সেজকশন আইডি দিন">
+        </div>
+        <div id="txSteps"></div>
+      </div>
+      <button class="verify-btn" id="verifyBtn" onclick="verifyTx()">VERIFY</button>
+    </div>
+  </div>
+</div>
+
+<!-- HELP BUTTON -->
+<div class="help-btn" id="helpBtn" style="display:none">
+  <div class="help-label" onclick="showToast('Telegram: t.me/Chunchumoni','success')">সাহায্য লাগবে?</div>
+  <div class="help-circle" onclick="window.open('https://t.me/Chunchumoni','_blank')">
+    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.9 11.6 19.79 19.79 0 01.87 2.98 2 2 0 012.86 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L7.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="navHome" onclick="switchPage('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home
+  </button>
+  <button class="nav-item" id="navAdd" onclick="showToast('প্রথমে ক্যাটাগরি বেছে নিন','error')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add Money
+  </button>
+  <button class="nav-item" id="navOrders" onclick="switchPage('orders')">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>My Orders
+  </button>
+  <button class="nav-item" id="navCodes" onclick="showToast('My Codes — শীঘ্রই','success')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>My Codes
+  </button>
+  <button class="nav-item" id="navAccount" onclick="showToast('Account — শীঘ্রই','success')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>My Account
+  </button>
+</nav>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-box">
+    <span class="modal-icon">✅</span>
+    <div class="modal-title">অর্ডার সফল হয়েছে!</div>
+    <div class="modal-desc">আপনার অর্ডার গ্রহণ করা হয়েছে। ৫–৩০ মিনিটের মধ্যে ডেলিভারি পাবেন।<br>সমস্যায় Telegram সাপোর্টে মেসেজ দিন।</div>
+    <div class="modal-oid" id="modalOid">ORDER ID: BD000000</div>
+    <button class="modal-close-btn" onclick="closeModal()">ঠিক আছে</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const BKASH_NUMBER='01873786543';
+const NAGAD_NUMBER='01873786543';
+const cats={
+  likes:{name:'Free Fire – 200 Like প্রতিদিন',desc:'Game / Top up',icon:'👍',cls:'likes',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','অর্ডার করার আগে ভালোভাবে পড়েনিন! ভুলে গেস্ট আইডিতে অর্ডার করবেন না।','এক আইডিতে প্রতিদিন একবার নিতে পারবেন। একদিনে একই আইডিতে বার বার অর্ডার করলে টাকা ফেরত দেওয়া হবে না।','ডেলিভারি টাইম: সাধারণ ১০-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।','Player ID ভুল দিয়ে পণ্য না পেলে BD Diamond Shop কর্তৃপক্ষ দায়ী নয়।'],
+    pkgs:[{id:1,label:'200 FF LIKE – প্রতিদিন ১ আইডিতে ১বার',price:35}]},
+  uid:{name:'UID TOPUP (BD)',desc:'Game / Top up',icon:'💎',cls:'uid',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','Player ID ভুল দিয়ে Diamond না পেলে BD Diamond Shop কর্তৃপক্ষ দায়ী নয়।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।'],
+    pkgs:[{id:1,label:'WEEKLY',price:158},{id:2,label:'MONTHLY',price:790},{id:3,label:'25 Diamond',price:22},{id:4,label:'50 Diamond',price:36},{id:5,label:'115 Diamond',price:79},{id:6,label:'240 Diamond',price:158},{id:7,label:'355 Diamond',price:237},{id:8,label:'480 Diamond',price:316},{id:9,label:'610 Diamond',price:400,popular:true},{id:10,label:'850 Diamond',price:558,popular:true},{id:11,label:'1240 Diamond',price:800},{id:12,label:'2530 Diamond',price:1580}]},
+  weekly:{name:'Weekly/Monthly Offer',desc:'Game / Top up',icon:'📅',cls:'weekly',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।','Player ID ভুল দিয়ে পণ্য না পেলে BD Diamond Shop কর্তৃপক্ষ দায়ী নয়।'],
+    pkgs:[{id:1,label:'WEEKLY',price:158},{id:2,label:'2X WEEKLY',price:316},{id:3,label:'3X WEEKLY',price:474,popular:true},{id:4,label:'MONTHLY',price:790,popular:true},{id:5,label:'2X MONTHLY',price:1580},{id:6,label:'1WEEKLY+1MONTHLY',price:948},{id:7,label:'3WEEKLY+1MONTHLY',price:1265}]},
+  wklite:{name:'Weekly Lite (BD Server)',desc:'Game / Top up',icon:'🟢',cls:'wklite',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।'],
+    pkgs:[{id:1,label:'1X Weekly Lite',price:45},{id:2,label:'2X Weekly Lite',price:90},{id:3,label:'3X Weekly Lite',price:135,popular:true},{id:4,label:'5X Weekly Lite',price:225}]},
+  levelup:{name:'Level Up Pass',desc:'Game / Top up',icon:'⬆️',cls:'levelup',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।','Player ID ভুল দিয়ে পণ্য না পেলে BD Diamond Shop কর্তৃপক্ষ দায়ী নয়।'],
+    pkgs:[{id:1,label:'Level Up Package - Level 6',price:43},{id:2,label:'Level Up Package - Level 10',price:75},{id:3,label:'Level Up Package - Level 15',price:75},{id:4,label:'Level Up Package - Level 20',price:75},{id:5,label:'Level Up Package - Level 25',price:75},{id:6,label:'Level Up Package - Level 30',price:105,popular:true},{id:7,label:'Full Level Up (1270 Diamond)',price:448,popular:true,sub:'সর্বোচ্চ সাশ্রয়'}]},
+  evo:{name:'Evo Pass',desc:'Game / Top up',icon:'🔥',cls:'evo',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।'],
+    pkgs:[{id:1,label:'Evo Pass (Standard)',price:350},{id:2,label:'Evo Pass (Elite)',price:620,popular:true,sub:'Extra Rewards'}]},
+  elite:{name:'Elite Pass',desc:'Game / Top up',icon:'⭐',cls:'elite',
+    rules:['শুধুমাত্র Bangladesh সার্ভারের ID Code দিয়ে টপ আপ হবে।','ডেলিভারি টাইম: সাধারণ ৫-৩০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।'],
+    pkgs:[{id:1,label:'Elite Pass',price:480},{id:2,label:'Elite Pass + Upgrade',price:780,popular:true,sub:'সর্বোচ্চ'}]}
+};
+let slideIdx=0,currentCatId=null,selectedPkg=null,payMethod='instant',orderHistory=[],chosenMethod=null;
+const track=document.getElementById('bannerTrack');
+const dots=document.querySelectorAll('.dot');
+function goSlide(n){slideIdx=n;track.style.transform=`translateX(-${n*100}%)`;dots.forEach((d,i)=>d.classList.toggle('active',i===n))}
+setInterval(()=>goSlide((slideIdx+1)%4),3500);
+function openCat(id){
+  currentCatId=id;selectedPkg=null;payMethod='instant';
+  const cat=cats[id];
+  const pb=document.getElementById('pbThumb');
+  pb.className='pb-thumb '+cat.cls;pb.textContent=cat.icon;
+  document.getElementById('pbTitle').textContent=cat.name;
+  const opts=document.getElementById('pkgOptions');opts.innerHTML='';
+  cat.pkgs.forEach(p=>{
+    const div=document.createElement('div');
+    div.className='pkg-opt';div.id='pkgopt_'+p.id;
+    div.innerHTML=`<div class="pkg-opt-inner"><div class="pkg-opt-name">${p.label}${p.popular?'<span class="popular-badge">🔥</span>':''}</div>${p.sub?`<div class="pkg-opt-sub">${p.sub}</div>`:''}<div class="pkg-opt-price">BDT ${p.price}</div></div>`;
+    div.onclick=()=>{document.querySelectorAll('.pkg-opt').forEach(x=>x.classList.remove('selected'));div.classList.add('selected');selectedPkg=p;document.getElementById('needAmt').textContent='৳ '+p.price};
+    opts.appendChild(div);
+  });
+  const rb=document.getElementById('rulesBody');rb.innerHTML='';
+  cat.rules.forEach(r=>{rb.innerHTML+=`<div class="rule-item"><div class="rule-dot"></div><div>${r}</div></div>`});
+  document.getElementById('payInstant').classList.add('selected');
+  document.getElementById('payInstant').querySelector('.pay-check').style.display='flex';
+  document.getElementById('payWallet').classList.remove('selected');
+  document.getElementById('payWallet').querySelector('.pay-check').style.display='none';
+  document.getElementById('ffUID').value='';
+  document.getElementById('needAmt').textContent='৳ 0';
+  switchPage('order');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function selectPay(m){
+  payMethod=m;
+  ['payWallet','payInstant'].forEach(id=>{
+    const el=document.getElementById(id);
+    const isSel=(id==='payWallet'&&m==='wallet')||(id==='payInstant'&&m==='instant');
+    el.classList.toggle('selected',isSel);
+    el.querySelector('.pay-check').style.display=isSel?'flex':'none';
+  });
+}
+function switchPage(p){
+  ['home','order','orders'].forEach(n=>document.getElementById(n+'Page').classList.toggle('active',n===p));
+  ['navHome','navAdd','navOrders','navCodes','navAccount'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  if(p==='home'){document.getElementById('navHome').classList.add('active');document.getElementById('helpBtn').style.display='none'}
+  if(p==='orders'){document.getElementById('navOrders').classList.add('active');renderOrders();document.getElementById('helpBtn').style.display='none'}
+  if(p==='order') document.getElementById('helpBtn').style.display='flex';
+}
+function goHome(){switchPage('home')}
+function submitOrder(){
+  const uid=document.getElementById('ffUID').value.trim();
+  if(!selectedPkg) return showToast('❌ একটি প্যাকেজ বেছে নিন','error');
+  if(!uid||uid.length<6) return showToast('❌ সঠিক Player ID দিন','error');
+  chosenMethod=null;
+  document.getElementById('footerAmount').textContent=selectedPkg.price+'.00';
+  document.getElementById('payFooterConfirm').classList.remove('visible');
+  ['methodBkash','methodNagad'].forEach(id=>document.getElementById(id).classList.remove('active-method'));
+  document.getElementById('payOverlay').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function selectMethod(m){
+  chosenMethod=m;
+  document.getElementById('methodBkash').classList.toggle('active-method',m==='bkash');
+  document.getElementById('methodNagad').classList.toggle('active-method',m==='nagad');
+  document.getElementById('payFooterConfirm').classList.add('visible');
+}
+function closePayOverlay(){
+  document.getElementById('payOverlay').style.display='none';
+  document.getElementById('txOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+function backToMethodChoice(){
+  document.getElementById('txOverlay').style.display='none';
+  document.getElementById('payOverlay').style.display='flex';
+}
+function goToTxPage(){
+  if(!chosenMethod) return;
+  const amt=selectedPkg.price;
+  document.getElementById('txAmtDisplay').textContent=amt;
+  document.getElementById('txIdInput').value='';
+  const isBkash=(chosenMethod==='bkash');
+  const panel=document.getElementById('txPanel');
+  panel.className='tx-instruction-panel '+(isBkash?'bkash-panel':'nagad-panel');
+  document.getElementById('verifyBtn').className='verify-btn '+(isBkash?'bkash-verify':'');
+  const logo=document.getElementById('txLogoArea');
+  if(isBkash){
+    logo.innerHTML=`<div style="display:flex;align-items:center;gap:12px"><svg width="56" height="56" viewBox="0 0 80 80"><rect width="80" height="80" rx="14" fill="#fce4ec"/><path d="M15 40 L40 10 L65 25 L50 42 L65 58 L40 72 L28 56 L40 42 Z" fill="#E2136E" opacity="0.9"/><path d="M40 10 L65 25 L50 42 L40 36 Z" fill="#C0105A"/><path d="M50 42 L65 58 L40 72 L40 58 Z" fill="#C0105A" opacity="0.7"/></svg><span style="font-size:2rem;font-weight:800;font-style:italic;color:#E2136E;font-family:Arial">bKash</span></div>`;
+  } else {
+    logo.innerHTML=`<div style="display:flex;align-items:center;gap:12px"><svg width="56" height="56" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#F05A28"/><circle cx="50" cy="50" r="36" fill="#E8251A"/><ellipse cx="50" cy="40" rx="15" ry="20" fill="#FFB300"/><ellipse cx="50" cy="44" rx="10" ry="13" fill="#FF6F00"/><circle cx="50" cy="50" r="7" fill="#E8251A"/></svg><div><div style="font-size:1.6rem;font-weight:800;color:#e8251a;font-family:'Hind Siliguri',sans-serif;line-height:1">নগদ</div><div style="font-size:.65rem;color:#aaa">জন-ভিত্তিক ডিজিটাল সেবা</div></div></div>`;
+  }
+  const dialCode=isBkash?'*247#':'*167#';
+  const brandName=isBkash?'bKash':'Nagad';
+  const number=isBkash?BKASH_NUMBER:NAGAD_NUMBER;
+  document.getElementById('txSteps').innerHTML=`
+    <div class="tx-step"><div class="tx-bullet"></div><div><strong>${dialCode}</strong> ডায়াল করে আপনার ${brandName} মোবাইল মেনুতে যান অথবা ${brandName} অ্যাপে যান।</div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div><span class="send-money-text">"Send Money"</span> -এ ক্লিক করুন।</div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div>প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুনঃ<div class="tx-number-row" style="margin-top:6px"><span class="tx-number">${number}</span><button class="copy-btn" onclick="copyNum('${number}')"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy</button></div></div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div>টাকার পরিমাণঃ <span class="tx-highlight">${amt}</span></div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div>নিশ্চিত করতে এখন আপনার ${brandName} মোবাইল মেনু পিন লিখুন।</div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div>সবকিছু ঠিক থাকলে, আপনি ${brandName} থেকে একটি নিশ্চিতকরণ বার্তা পাবেন।</div></div>
+    <div class="tx-step"><div class="tx-bullet"></div><div>এখন উপরের বক্সে আপনার <span class="tx-highlight">Transaction ID</span> দিন এবং নিচের <span class="tx-highlight">VERIFY</span> বাটনে ক্লিক করুন।</div></div>`;
+  document.getElementById('payOverlay').style.display='none';
+  document.getElementById('txOverlay').style.display='flex';
+}
+function copyNum(n){navigator.clipboard.writeText(n).catch(()=>{});showToast('নম্বর কপি হয়েছে ✓','success')}
+function verifyTx(){
+  const txId=document.getElementById('txIdInput').value.trim();
+  if(!txId||txId.length<6) return showToast('❌ সঠিক Transaction ID দিন','error');
+  const btn=document.getElementById('verifyBtn');
+  btn.disabled=true;btn.textContent='যাচাই করা হচ্ছে...';
+  setTimeout(()=>{
+    document.getElementById('txOverlay').style.display='none';
+    document.body.style.overflow='';
+    const oid='BD'+Date.now().toString().slice(-6);
+    const uid=document.getElementById('ffUID').value.trim();
+    orderHistory.unshift({id:oid,pkg:selectedPkg.label,cat:cats[currentCatId].name,price:selectedPkg.price,uid,pay:chosenMethod,date:new Date().toLocaleDateString('bn-BD'),status:'pending'});
+    document.getElementById('modalOid').textContent='Order ID: '+oid;
+    document.getElementById('successModal').classList.add('open');
+    btn.disabled=false;btn.textContent='VERIFY';
+  },1500);
+}
+function closeModal(){
+  document.getElementById('successModal').classList.remove('open');
+  document.getElementById('ffUID').value='';
+  selectedPkg=null;
+  document.querySelectorAll('.pkg-opt').forEach(x=>x.classList.remove('selected'));
+  document.getElementById('needAmt').textContent='৳ 0';
+}
+function renderOrders(){
+  const el=document.getElementById('orderHistoryList');
+  if(!orderHistory.length){el.innerHTML=`<div class="empty-state"><div style="font-size:3rem;margin-bottom:12px">📦</div><div style="font-weight:700;font-size:.98rem;margin-bottom:5px">কোনো অর্ডার নেই</div><div style="font-size:.83rem">এখনো কোনো অর্ডার করেননি</div></div>`;return}
+  el.innerHTML=orderHistory.map(o=>`<div class="ohi"><div><div class="ohi-id">${o.id}</div><div class="ohi-pkg">${o.pkg}</div><div class="ohi-date">${o.cat} • ${o.date}</div></div><div style="text-align:right"><div class="status-pill ${o.status==='done'?'status-done':'status-pending'}">${o.status==='done'?'✅ সম্পন্ন':'⏳ প্রক্রিয়াধীন'}</div><div style="font-size:.85rem;font-weight:700;color:var(--purple);margin-top:5px">৳${o.price}</div></div></div>`).join('');
+}
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');t.textContent=msg;t.className='toast '+type+' show';
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>
+
