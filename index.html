@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go Play - Preview</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #000;
+    font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 24px 0;
+    min-height: 100vh;
+  }
+  .phone {
+    width: 380px;
+    max-width: 94vw;
+    background: #000;
+    border-radius: 28px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    min-height: 760px;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen { display: none; flex: 1; flex-direction: column; }
+  .screen.active { display: flex; }
+  .scroll { flex: 1; overflow-y: auto; padding: 20px; }
+
+  /* ---------- shared ---------- */
+  .label { color: #aaa; font-size: 13px; margin-bottom: 6px; display: block; }
+  .field {
+    background: #15161a;
+    border: 1px solid #333;
+    border-radius: 30px;
+    padding: 14px 18px;
+    color: #fff;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .field::placeholder { color: #777; }
+  .btn-primary {
+    background: #4A7DFF;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 15px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .btn-primary:disabled { opacity: 0.5; }
+  .center { text-align: center; }
+  .muted { color: #888; }
+  .link { color: #4A7DFF; font-weight: 700; cursor: pointer; }
+  .error { color: #ff5c5c; font-size: 13px; margin: -8px 0 12px; }
+  .logo-circle {
+    width: 130px; height: 130px; border-radius: 50%;
+    background: radial-gradient(circle, #1B2A4A 60%, #0a0f1f 100%);
+    display: flex; align-items: center; justify-content: center;
+    margin: 30px auto 20px; font-size: 40px;
+  }
+
+  /* ---------- home ---------- */
+  .topbar { display: flex; align-items: center; padding: 16px 20px; gap: 8px; }
+  .brand { font-size: 20px; font-weight: 800; }
+  .brand .l { color: #6cb6ff; }
+  .brand .p { color: #ff9a3c; }
+  .spacer { flex: 1; }
+  .wallet {
+    border: 1px solid #2ecc71; border-radius: 20px;
+    padding: 6px 12px; color: #2ecc71; font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .section-title { color: #fff; font-size: 20px; font-weight: 800; margin: 6px 0 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .mode-card {
+    background: #15161a; border-radius: 14px; padding: 14px;
+    height: 110px; display: flex; flex-direction: column; justify-content: flex-end;
+    cursor: pointer; border: 1px solid #222; transition: 0.15s;
+  }
+  .mode-card:hover { border-color: #4A7DFF; }
+  .mode-card .name { color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .live-tag { font-size: 11px; display: flex; align-items: center; gap: 4px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+  .dot.on { background: #2ecc71; }
+  .dot.off { background: #555; }
+  .live-tag.on { color: #2ecc71; }
+  .live-tag.off { color: #777; }
+
+  /* ---------- match list ---------- */
+  .appbar {
+    display: flex; align-items: center; padding: 16px 16px; gap: 12px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .back { color: #fff; font-size: 22px; cursor: pointer; }
+  .appbar h2 { color: #fff; font-size: 17px; }
+  .match-card {
+    background: #15161a; border-radius: 16px; padding: 16px; margin-bottom: 18px;
+  }
+  .match-card h3 { color: #fff; font-size: 17px; margin-bottom: 4px; }
+  .match-meta { color: #888; font-size: 11px; margin-bottom: 2px; }
+  .match-time { color: #ff9a3c; font-size: 12px; margin-bottom: 12px; }
+  hr { border: none; border-top: 1px solid #2a2a2a; margin: 10px 0; }
+  .stat-row { display: flex; justify-content: space-between; margin-bottom: 14px; }
+  .stat { text-align: center; flex: 1; }
+  .stat .v { color: #fff; font-weight: 800; font-size: 15px; }
+  .stat .k { color: #888; font-size: 11px; }
+  .spots-row { display: flex; align-items: flex-end; gap: 12px; }
+  .spots-info { flex: 1; }
+  .spots-top { display: flex; justify-content: space-between; color: #aaa; font-size: 12px; margin-bottom: 6px; }
+  .bar-bg { background: #2a2a2a; border-radius: 8px; height: 6px; overflow: hidden; }
+  .bar-fill { background: #4A7DFF; height: 100%; transition: width 0.4s; }
+  .join-btn {
+    background: #2ecc71; border: none; border-radius: 8px; color: #fff;
+    font-weight: 800; padding: 12px 22px; cursor: pointer; font-size: 14px;
+  }
+  .join-btn:disabled { background: #444; cursor: not-allowed; }
+  .need-players {
+    display: inline-block; margin-top: 10px; border: 1px solid #ff9a3c; color: #ff9a3c;
+    border-radius: 8px; padding: 3px 10px; font-size: 11px;
+  }
+  .toast {
+    position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+    background: #2ecc71; color: #fff; padding: 10px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 700; opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; white-space: nowrap;
+  }
+  .toast.error-toast { background: #e74c3c; }
+  .toast.show { opacity: 1; }
+  .note {
+    margin-top: 18px; padding: 12px 14px; background: #101820; border: 1px solid #1f3b2e;
+    border-radius: 10px; color: #7fdba1; font-size: 12px; line-height: 1.5;
+  }
+
+  /* ---------- join confirmation modal ---------- */
+  .join-overlay { position:absolute; inset:0; background:rgba(0,0,0,.65); display:none; align-items:center; justify-content:center; z-index:50; padding:20px; }
+  .join-overlay.show { display:flex; }
+  .join-modal { background:#15161a; border:1px solid #2a2a2a; border-radius:16px; padding:22px; width:100%; max-width:300px; }
+  .join-modal h3 { color:#fff; font-size:18px; font-weight:800; margin:0; }
+  .join-fee-note { background:#101117; border:1px solid #222; border-radius:10px; padding:10px 12px; font-size:12.5px; color:#ccc; margin-bottom:16px; }
+  .join-modal-actions { display:flex; gap:10px; margin-top:16px; }
+  .join-cancel-btn { flex:1; background:#222; border:none; border-radius:10px; color:#ccc; padding:12px; font-weight:700; cursor:pointer; }
+  .join-confirm-btn { flex:1; background:#2ecc71; border:none; border-radius:10px; color:#fff; padding:12px; font-weight:800; cursor:pointer; }
+
+  /* ---------- profile ---------- */
+  .profile-card { background:#15161a; border-radius:16px; padding:20px; }
+  .avatar-ring { width:64px; height:64px; border-radius:50%; background:radial-gradient(circle,#1B2A4A 60%,#0a0f1f 100%);
+    display:flex; align-items:center; justify-content:center; font-size:28px; border:2px solid #4A7DFF; flex-shrink:0; }
+  .uid-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(74,125,255,.12); border:1px solid rgba(74,125,255,.35);
+    color:#7da8ff; padding:4px 10px; border-radius:20px; font-size:11px; margin-top:8px; }
+  .balance-box { background:#101117; border:1px solid #222; border-radius:14px; padding:16px; margin-top:18px; }
+  .add-btn { background:#4A7DFF; color:#fff; border:none; width:34px; height:34px; border-radius:50%; font-size:18px; font-weight:700; cursor:pointer; }
+  .stat2-row { display:flex; gap:12px; margin-top:16px; }
+  .stat2-box { flex:1; background:#101117; border:1px solid #222; border-radius:12px; padding:14px; text-align:center; }
+  .stat2-box.gold { border-color:rgba(255,154,60,.4); }
+  .stat2-v { color:#fff; font-size:22px; font-weight:800; }
+  .stat2-k { color:#888; font-size:11px; margin-top:2px; }
+  .menu-item { display:flex; align-items:center; background:#15161a; border-radius:12px; padding:14px 16px;
+    margin-bottom:10px; color:#fff; font-size:14px; font-weight:600; cursor:pointer; }
+  .menu-icon { margin-right:12px; font-size:16px; }
+  .chev { margin-left:auto; color:#666; }
+  .logout-item { color:#ff5c5c; }
+
+  /* ---------- wallet ---------- */
+  .balance-hero { background:#101117; border:1px solid #222; border-radius:16px; padding:26px 20px; text-align:center; margin-bottom:22px; }
+  .winning-pill { display:inline-flex; align-items:center; gap:6px; background:rgba(255,154,60,.12); border:1px solid rgba(255,154,60,.35);
+    color:#ff9a3c; padding:6px 14px; border-radius:20px; font-size:12px; margin:10px 0 20px; }
+  .wallet-actions { display:flex; justify-content:center; gap:26px; }
+  .wallet-action { display:flex; flex-direction:column; align-items:center; gap:7px; color:#ccc; font-size:11.5px; font-weight:600; cursor:pointer; }
+  .wa-icon { width:46px; height:46px; border-radius:50%; background:#15161a; border:1px solid #2a2a2a;
+    display:flex; align-items:center; justify-content:center; font-size:18px; color:#fff; }
+  .wallet-action:hover .wa-icon { border-color:#4A7DFF; color:#4A7DFF; }
+
+  /* ---------- deposit ---------- */
+  .payment-methods{ display:flex; gap:15px; margin-bottom:18px; }
+  .pay-btn{
+    flex:1; min-width:0; height:70px;
+    border:none; border-radius:15px; color:#fff;
+    font-size:18px; font-weight:bold; cursor:pointer;
+    transition:.15s; opacity:.55; filter:grayscale(35%);
+  }
+  .pay-btn.active{ opacity:1; filter:none; box-shadow:0 0 0 3px #fff inset, 0 0 14px rgba(255,255,255,.25); }
+  .bkash{ background:#e2136e; }
+  .nagad{ background:#f58220; }
+  .rocket{ background:#7a2ca7; }
+  .send-to-box { background:#101117; border:1px solid #222; border-radius:12px; padding:14px 16px; margin-bottom:18px; }
+  .instructions-box { background:#101117; border:1px solid #222; border-radius:12px; padding:14px 16px; color:#bbb; font-size:12.5px; line-height:1.9; margin-bottom:18px; }
+
+  /* ---------- bottom nav ---------- */
+  .bottomnav { display:none; align-items:center; justify-content:space-around; padding:12px 12px; background:#0c0c0e; border-top:1px solid #1a1a1a; }
+  .nav-item { display:flex; align-items:center; gap:6px; padding:10px 16px; border-radius:24px; color:#777; font-size:13px; font-weight:700; cursor:pointer; transition:.15s; }
+  .nav-item svg { width:20px; height:20px; flex-shrink:0; }
+  .nav-item.active { background:#4A7DFF; color:#fff; }
+</style>
+</head>
+<body>
+
+<div class="phone" style="position:relative;">
+
+  <!-- LOGIN -->
+  <div class="screen active" id="login">
+    <div class="scroll center">
+      <div class="logo-circle">🎮</div>
+      <h1 style="color:#fff;font-size:28px;font-weight:800;">Welcome Back</h1>
+      <p class="muted" style="margin:6px 0 26px;">Sign in to your account</p>
+      <div style="text-align:left;">
+        <span class="label">Email</span>
+        <input class="field" id="loginEmail" placeholder="Enter Email" value="player1@example.com">
+        <span class="label">Password</span>
+        <input class="field" id="loginPass" type="password" placeholder="Enter Password" value="123456">
+      </div>
+      <div class="error" id="loginError"></div>
+      <button class="btn-primary" onclick="doLogin()">Log In</button>
+      <p style="margin-top:20px;" class="muted">Don't have an account? <span class="link" onclick="show('signup')">Create Account</span></p>
+    </div>
+  </div>
+
+  <!-- SIGNUP -->
+  <div class="screen" id="signup">
+    <div class="scroll">
+      <span class="back" onclick="show('login')">←</span>
+      <div class="center" style="margin:10px 0 20px;">
+        <h1 style="color:#fff;font-size:24px;font-weight:800;">Create Account</h1>
+        <p class="muted">Join the tournament today</p>
+      </div>
+      <span class="label">Full Name</span>
+      <input class="field" id="suName" placeholder="Enter Full Name">
+      <span class="label">Email</span>
+      <input class="field" id="suEmail" placeholder="Enter Email">
+      <span class="label">Phone Number</span>
+      <input class="field" id="suPhone" placeholder="Enter Phone Number">
+      <span class="label">Password</span>
+      <input class="field" id="suPass" type="password" placeholder="Enter Password">
+      <div class="error" id="signupError"></div>
+      <button class="btn-primary" onclick="doSignup()">Create Account</button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="topbar">
+      <span style="font-size:20px;">🎮</span>
+      <span class="brand"><span class="l">Go </span><span class="p">Play</span></span>
+      <div class="spacer"></div>
+      <div class="wallet">💳 ৳<span id="walletAmount">0</span></div>
+    </div>
+    <div class="scroll">
+      <div class="section-title">Game Modes</div>
+      <div class="grid" id="modeGrid"></div>
+      <div class="note">এই preview-এ data fake/in-memory — Join করলে real app-এর মতোই wallet কমবে আর spots বাড়বে, কিন্তু এটা আসল Firebase না। Setup শেষ করলে এগুলো সব real হবে।</div>
+    </div>
+  </div>
+
+  <!-- MATCH LIST -->
+  <div class="screen" id="matchlist">
+    <div class="appbar">
+      <span class="back" onclick="show('home')">←</span>
+      <h2 id="matchlistTitle">BR SOLO</h2>
+    </div>
+    <div class="scroll" id="matchListContainer"></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="screen" id="profile">
+    <div class="topbar">
+      <span style="font-size:20px;">🎮</span>
+      <span class="brand"><span class="l">Go </span><span class="p">Play</span></span>
+      <div class="spacer"></div>
+      <div class="wallet">💳 ৳<span id="walletAmountProfile">0</span></div>
+    </div>
+    <div class="scroll">
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="avatar-ring">👤</div>
+          <div>
+            <div style="color:#fff;font-weight:800;font-size:18px;" id="profName">Player One</div>
+            <div class="muted" style="font-size:12px;" id="profPhone">01XXXXXXXXX</div>
+            <div class="muted" style="font-size:12px;" id="profEmail">player1@example.com</div>
+            <div class="uid-badge">👤 UID: <span id="profUid">10001</span></div>
+          </div>
+        </div>
+        <div class="balance-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:18px;">💳</span>
+              <div>
+                <div class="muted" style="font-size:12px;">Main Balance</div>
+                <div style="color:#fff;font-weight:800;font-size:22px;">৳<span id="profBalance">0</span></div>
+              </div>
+            </div>
+            <button class="add-btn" onclick="openDeposit()">+</button>
+          </div>
+          <hr style="margin:14px 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:18px;">🏆</span>
+              <div>
+                <div class="muted" style="font-size:12px;">Winning Balance</div>
+                <div style="color:#ff9a3c;font-weight:800;">৳<span id="profWinning">0</span></div>
+              </div>
+            </div>
+            <span class="muted" style="font-size:13px;">Details ›</span>
+          </div>
+        </div>
+        <div class="stat2-row">
+          <div class="stat2-box"><div class="stat2-v" id="matchesPlayed">0</div><div class="stat2-k">Matches Played</div></div>
+          <div class="stat2-box gold"><div class="stat2-v">0</div><div class="stat2-k">Matches Won</div></div>
+        </div>
+      </div>
+
+      <div class="section-title" style="font-size:16px;margin-top:22px;">Account Center</div>
+      <div class="menu-item" onclick="openWallet()"><span class="menu-icon">👛</span> My Wallet <span class="chev">›</span></div>
+      <div class="menu-item"><span class="menu-icon">📄</span> All Statements <span class="chev">›</span></div>
+
+      <div class="section-title" style="font-size:16px;margin-top:22px;">More</div>
+      <div class="menu-item logout-item" onclick="doLogout()"><span class="menu-icon">⏻</span> Logout</div>
+    </div>
+  </div>
+
+  <!-- WALLET -->
+  <div class="screen" id="wallet">
+    <div class="appbar">
+      <span class="back" onclick="show('profile')">←</span>
+      <h2>My Wallet</h2>
+    </div>
+    <div class="scroll">
+      <div class="balance-hero">
+        <div class="muted" style="font-size:13px;">Available Balance</div>
+        <div style="color:#fff;font-size:38px;font-weight:800;">৳<span id="walletBalanceBig">0</span></div>
+        <div class="winning-pill">🏆 Winning Balance: ৳<span id="walletWinningPill">0</span></div>
+        <div class="wallet-actions">
+          <div class="wallet-action" onclick="openDeposit()"><div class="wa-icon">⊕</div>Deposit</div>
+          <div class="wallet-action" onclick="toast('Withdraw চাইলে আগে balance থাকতে হবে', true)"><div class="wa-icon">⊖</div>Withdraw</div>
+          <div class="wallet-action"><div class="wa-icon">🎁</div>Gift</div>
+        </div>
+      </div>
+      <div class="section-title" style="font-size:16px;">Recent Transactions</div>
+      <div id="txnList"></div>
+    </div>
+  </div>
+
+  <!-- DEPOSIT -->
+  <div class="screen" id="deposit">
+    <div class="appbar">
+      <span class="back" onclick="show('wallet')">←</span>
+      <h2>Deposit Money</h2>
+    </div>
+    <div class="scroll">
+      <div class="muted" style="font-size:13px;margin-bottom:10px;">Select Payment Method</div>
+      <div class="payment-methods">
+        <button class="pay-btn bkash active" data-method="bKash" onclick="selectMethod(this)">bKash</button>
+        <button class="pay-btn nagad" data-method="Nagad" onclick="selectMethod(this)">Nagad</button>
+        <button class="pay-btn rocket" data-method="Rocket" onclick="selectMethod(this)">Rocket</button>
+      </div>
+      <div class="send-to-box" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <div class="muted" style="font-size:12px;">Send Money To</div>
+          <div style="color:#ff9a3c;font-size:22px;font-weight:800;" id="depositNumber">01873786543</div>
+        </div>
+        <button type="button" onclick="copyNumber()" style="background:#15161a;border:1px solid #2a2a2a;border-radius:10px;width:38px;height:38px;flex-shrink:0;color:#aaa;font-size:15px;cursor:pointer;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="17" height="17" style="margin:auto;"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+        </button>
+      </div>
+      <div class="muted" style="font-size:13px;margin:16px 0 8px;">Instructions</div>
+      <div class="instructions-box">
+        1. Dial <span id="depositDial">*247#</span> or open the <span id="methodNameText">bKash</span> app.<br>
+        2. Choose: Send Money<br>
+        3. Enter the Number: <b>01873786543</b><br>
+        4. Enter the Amount<br>
+        5. Now enter your PIN to confirm.<br>
+        6. Put the Transaction ID below and press Verify.
+      </div>
+      <span class="label">Amount</span>
+      <input class="field" id="depositAmount" placeholder="Enter Amount" type="number">
+      <span class="label">Transaction ID</span>
+      <input class="field" id="depositTxnId" placeholder="Enter Transaction ID">
+      <div class="error" id="depositError"></div>
+      <button class="btn-primary" onclick="submitDeposit()">Verify Deposit</button>
+      <div class="note" style="margin-top:16px;">Verify চাপলে এই demo-তে সাথে সাথে আপনার wallet-এ টাকা যুক্ত হয়ে যাবে এবং WhatsApp-এ Transaction ID ও Amount সহ একটা ভেরিফিকেশন মেসেজ খুলবে। আসল লাইভ অ্যাপে এটা admin manually bKash statement মিলিয়ে approve করার পরই যুক্ত হওয়া উচিত।</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottomnav" id="bottomnav">
+    <div class="nav-item active" data-tab="home" onclick="navTo('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="10" rx="5"/><line x1="7" y1="11" x2="7" y2="15"/><line x1="5" y1="13" x2="9" y2="13"/><circle cx="16" cy="11.5" r="1"/><circle cx="18.5" cy="14" r="1"/></svg>
+      Play
+    </div>
+    
