@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order - FF BAZAR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    body{font-family: 'Hind Siliguri', sans-serif; background:#f5f5f7;}
+.package-btn,.payment-btn { border: 2px solid #e5e7eb; transition: all.2s;}
+.package-btn.active,.payment-btn.active { border-color: #9333ea; background: #faf5ff; }
+.corner-ribbon { display: none; position: absolute; top: 0; right: 0; width: 0; height: 0; border-style: solid; border-width: 0 40px 40px 0; border-color: transparent #dc2626 transparent; }
+.payment-btn.active.corner-ribbon { display: block; }
+.corner-ribbon i { position: absolute; top: 3px; right: 3px; color: white; font-size: 14px; }
+.checkout-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #f0f4f9; z-index: 50; overflow-y: auto;}
+.payment-form { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 60; align-items: center; justify-content: center; padding: 16px;}
+  </style>
+</head>
+<body class="pb-20">
+  <div id="order-page">
+    <header class="flex items-center gap-3 p-4 bg-white sticky top-0 z-10 shadow-sm">
+      <a href="index.html"><i class="ri-arrow-left-line text-2xl"></i></a>
+      <h1 class="text-lg font-bold" id="page-title">Order</h1>
+    </header>
+    <div class="p-4 space-y-4">
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
+          <p class="font-bold text-lg">Select Recharge</p>
+        </div>
+        <div id="package-list" class="grid grid-cols-2 gap-3"></div>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+          <p class="font-bold text-lg">Account Info</p>
+        </div>
+        <label class="text-sm text-gray-600">প্লেয়ার আইডি বসান</label>
+        <input type="number" id="uid-input" placeholder="প্লেয়ার আইডি বসান" class="w-full mt-1 p-3 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none">
+        <button class="w-full mt-3 bg-purple-600 text-white font-semibold py-2.5 rounded-lg">আপনার গেম আইডির নাম চেক করুন</button>
+      </div>
+      <div class="bg-white p-4 rounded-xl shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+          <p class="font-bold text-lg">Select one option</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button class="payment-btn relative rounded-lg overflow-hidden text-left bg-white" onclick="selectPayment(0)">
+            <div class="p-3 flex items-center justify-center h-24">
+              <img src="./images/wallet.png" alt="Wallet" class="h-14 object-contain">
+            </div>
+            <div class="bg-gray-200 p-2 text-sm font-semibold text-gray-700">Wallet Pay</div>
+            <div class="corner-ribbon"><i class="ri-check-line"></i></div>
+          </button>
+          <button class="payment-btn relative rounded-lg overflow-hidden text-left bg-white active" onclick="selectPayment(1)">
+            <div class="p-2 flex-col items-center justify-center h-24">
+              <img src="./images/Payment-logos.jpg" alt="bKash Nagad Rocket" class="h-16 object-contain">
+              <p class="text-blue-600 font-bold text-xs mt-1">Auto Payment</p>
+            </div>
+            <div class="bg-gray-200 p-2 text-center text-sm font-semibold text-gray-700">Instant Pay</div>
+            <div class="corner-ribbon"><i class="ri-check-line"></i></div>
+          </button>
+        </div>
+        <div class="mt-3 space-y-2 text-sm text-gray-600">
+          <p class="flex items-center gap-2"><i class="ri-information-line"></i> আপনার অ্যাকাউন্ট ব্যালেন্স <span class="font-bold text-purple-600">৳ 2.00</span></p>
+          <p class="flex items-center gap-2"><i class="ri-information-line"></i> প্রোডাক্ট কিনতে আপনার প্রয়োজন <span id="need-amount" class="font-bold text-purple-600">৳ 0</span></p>
+        </div>
+        <button id="order-btn" onclick="showCheckout()" class="w-full mt-3 bg-purple-600 text-white font-bold py-3 rounded-lg disabled:bg-gray-300" disabled>Buy Now - <span id="total-price">0৳</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secure Checkout Page -->
+  <div id="checkout-page" class="checkout-page">
+    <header class="flex items-center justify-between p-3 bg-gray-900 text-white">
+      <div class="flex items-center gap-2">
+        <button onclick="hideCheckout()"><i class="ri-close-line text-2xl"></i></button>
+      </div>
+      <div class="text-center">
+        <p class="font-semibold">Secure Checkout</p>
+        <p class="text-xs text-gray-300">pay.offertopup.com</p>
+      </div>
+      <div></div>
+    </header>
+    <div class="p-4">
+      <div class="bg-white rounded-xl p-6 text-center">
+        <p class="text-gray-500 text-2xl font-bold">Wallet</p>
+        <div class="grid grid-cols-2 gap-3 mt-3">
+          <button onclick="showPaymentForm('bKash')" class="border rounded-lg p-3 flex items-center justify-center active:scale-95">
+            <img src="./images/bkash.png" class="h-8">
+          </button>
+          <button onclick="showPaymentForm('Nagad')" class="border rounded-lg p-3 flex items-center justify-center active:scale-95">
+            <img src="./images/nogod.png" class="h-8">
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="fixed bottom-0 left-0 right-0 bg-blue-100 p-3 text-center">
+      <p class="text-blue-700 font-bold text-lg">Pay <span id="pay-amount">0.00</span></p>
+    </div>
+  </div>
+
+  <!-- Payment Form Popup -->
+  <div id="payment-form" class="payment-form">
+    <div class="bg-white rounded-xl w-full max-w-sm">
+      <div class="p-4 flex justify-between items-center border-b">
+        <img id="payment-logo" src="" class="h-8">
+        <p class="font-bold text-lg" id="payment-amount-top">৳ 0</p>
+        <button onclick="hidePaymentForm()"><i class="ri-close-line text-2xl text-gray-500"></i></button>
+      </div>
+      <div id="payment-box" class="p-4 text-white rounded-b-xl">
+        <p class="text-center font-bold mb-3">ট্রানজেকশন আইডিটি দিন</p>
+        <input type="text" id="txid-input" placeholder="ট্রানজেকশন আইডি দিন" class="w-full p-2.5 rounded-lg text-gray-900 mb-3 outline-none">
+        
+        <div class="space-y-2 text-sm">
+          <p>* <span id="dial-code">*247#</span> ডায়াল করে আপনার <span id="payment-name-1">bKash</span> অ্যাপে লগইন করুন</p>
+          <p>* "Send Money" এ ক্লিক করুন</p>
+          <p>* প্রাপক নম্বরে নিচের নম্বরটি দিন: <span id="receiver-number" class="font-bold text-yellow-300">01873786543</span> <button onclick="copyNumber()" class="bg-white/20 px-2 py-0.5 rounded text-xs">Copy</button></p>
+          <p>* টাকার পরিমাণ: <span id="payment-amount" class="font-bold">0</span> ৳</p>
+          <p>* TxID নিয়ে নিচে VERIFY করুন</p>
+        </div>
+        <button onclick="verifyOrder()" id="verify-btn" class="w-full font-bold py-3 rounded-lg mt-4">VERIFY</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Popup -->
+  <div id="success-modal" class="payment-form">
+    <div class="bg-white rounded-xl p-6 text-center max-w-sm w-full">
+      <i class="ri-checkbox-circle-line text-6xl text-green-500"></i>
+      <h2 class="text-xl font-bold mt-2">Order Complete!</h2>
+      <p class="text-gray-600 mt-2">আপনার পেমেন্ট Verify হচ্ছে। ১০-৩০ মিনিটের মধ্যে ডেলিভারি পাবেন।</p>
+      <button onclick="window.location.href='index.html'" class="w-full mt-4 bg-purple-600 text-white font-bold py-2.5 rounded-lg">ঠিক আছে</button>
+    </div>
+  </div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const item = params.get('item');
+  const packages = {
+    '200like': [ {name: 'Free Fire 200 FF Like (প্রতিদিন)', price: 30} ],
+    'indo': [ {name: '50 Diamond (Indo)', price: 65}, {name: '70 Diamond (Indo)', price: 90}, {name: '100 Diamond (Indo)', price: 130}, {name: '140 Diamond (Indo)', price: 180}, {name: '355 Diamond (Indo)', price: 445}, {name: '720 Diamond (Indo)', price: 890}, {name: '7290 Diamond (Indo)', price: 8800}, {name: 'Weekly (Indo)', price: 255} ],
+    'weeklylite': [ {name: 'Weekly Lite 1X', price: 120}, {name: 'Weekly Lite 2X', price: 230}, {name: 'Weekly Lite 3X', price: 340}, {name: 'Weekly Lite 5X', price: 560}, {name: 'Weekly Lite', price: 120} ],
+    'weekly': [ {name: 'Weekly / Monthly', price: 160}, {name: 'Weekly 2X', price: 300}, {name: 'Weekly 3X', price: 450}, {name: 'Weekly', price: 160}, {name: 'Monthly 2X', price: 300}, {name: 'Monthly 1X', price: 160}, {name: '1X Weekly + 1X Monthly', price: 280}, {name: '3X Weekly + 1X Monthly', price: 600} ],
+    'uid': [ {name: 'Weekly', price: 160}, {name: 'Monthly', price: 750}, {name: '25 Diamond', price: 35}, {name: '50 Diamond', price: 65}, {name: '115 Diamond', price: 150}, {name: '240 Diamond', price: 300}, {name: '355 Diamond', price: 445}, {name: '480 Diamond', price: 600}, {name: '610 Diamond', price: 750}, {name: '850 Diamond', price: 1050}, {name: '1240 Diamond', price: 1500}, {name: '2530 Diamond', price: 3000}, {name: '5060 Diamond', price: 6000}, {name: '10120 Diamond', price: 12000} ],
+    'levelpass': [ {name: 'Level Up Package – Level 6', price: 80}, {name: 'Level Up Package – Level 10', price: 130}, {name: 'Level Up Package – Level 15', price: 200}, {name: 'Level Up Package – Level 20', price: 270}, {name: 'Level Up Package – Level 25', price: 340}, {name: 'Level Up Package – Level 30', price: 410}, {name: 'Full Level Up (1270 Diamond)', price: 1500} ]
+  };
+  const titles = {'200like': 'Free Fire - 200 Like','indo': 'Indonesia Server','weeklylite': 'Weekly Lite (BD Server)','weekly': 'Weekly/Monthly Offer','uid': 'UID TOPUP (BD)','levelpass': 'LEVEL UP PASS'};
+  document.getElementById('page-title').innerText = titles[item] || 'Order';
+  const packageList = document.getElementById('package-list');
+  const currentPackages = packages[item] || [];
+  let selectedPrice = 0;
+  let currentPaymentMethod = 'bKash';
+  
+  const paymentDetails = {
+    'bKash': { number: '01873786543', code: '*247#', color: 'bg-pink-600', btnColor: 'bg-red-700' },
+    'Nagad': { number: '01337165917', code: '*187#', color: 'bg-red-600', btnColor: 'bg-red-800' }
+  };
+
+  if(currentPackages.length > 0){
+    currentPackages.forEach((pkg, index) => {
+      packageList.innerHTML += `<button class="package-btn p-3 rounded-lg text-center" onclick="selectPackage(${index})"><p class="font-semibold text-sm">${pkg.name}</p><p class="text-purple-600 font-bold text-sm mt-1">BDT ${pkg.price}</p></button>`;
+    });
+  } else {
+    packageList.innerHTML = `<p class="text-center text-red-500 col-span-2">Error: Package পাওয়া যায়নি।</p>`;
+  }
+  function selectPackage(index) {
+    document.querySelectorAll('.package-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.package-btn')[index].classList.add('active');
+    selectedPrice = currentPackages[index].price;
+    document.getElementById('total-price').innerText = selectedPrice + '৳';
+    document.getElementById('need-amount').innerText = '৳ ' + selectedPrice;
+    document.getElementById('order-btn').disabled = false;
+  }
+  function selectPayment(index) {
+    document.querySelectorAll('.payment-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.payment-btn')[index].classList.add('active');
+  }
+  function showCheckout() {
+    document.getElementById('pay-amount').innerText = selectedPrice + '.00';
+    document.getElementById('checkout-page').style.display = 'block';
+    document.getElementById('order-page').style.display = 'none';
+  }
+  function hideCheckout() {
+    document.getElementById('checkout-page').style.display = 'none';
+    document.getElementById('order-page').style.display = 'block';
+  }
+  function showPaymentForm(method) {
+    currentPaymentMethod = method;
+    const details = paymentDetails[method];
+    
+    document.getElementById('payment-logo').src = `./images/${method === 'bKash'? 'bkash' : 'nogod'}.png`;
+    document.getElementById('payment-amount-top').innerText = '৳ ' + selectedPrice;
+    document.getElementById('payment-name-1').innerText = method;
+    document.getElementById('dial-code').innerText = details.code;
+    document.getElementById('receiver-number').innerText = details.number;
+    document.getElementById('payment-amount').innerText = selectedPrice;
+    
+    document.getElementById('payment-box').className = `p-4 text-white rounded-b-xl ${details.color}`;
+    document.getElementById('verify-btn').className = `w-full font-bold py-3 rounded-lg mt-4 ${details.btnColor}`;
+
+    document.getElementById('payment-form').style.display = 'flex';
+  }
+  function hidePaymentForm() {
+    document.getElementById('payment-form').style.display = 'none';
+  }
+  function copyNumber() {
+    const number = paymentDetails[currentPaymentMethod].number;
+    navigator.clipboard.writeText(number);
+    alert('Number Copied: ' + number);
+  }
+  function verifyOrder() {
+    const txid = document.getElementById('txid-input').value;
+    if(txid === ''){
+      alert('ট্রানজেকশন আইডি দিন!');
+      return;
+    }
+    hidePaymentForm();
+    document.getElementById('success-modal').style.display = 'flex';
+  }
+  selectPayment(1);
+</script>
+</body>
+</html>
