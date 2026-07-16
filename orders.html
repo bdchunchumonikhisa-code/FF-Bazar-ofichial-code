@@ -1,0 +1,58 @@
+<!DOCTYPE html> <html lang="bn"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>My Orders - FF BAZAR</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"> </head> <body class="bg-[#f5f5f7] pb-20">
+
+<header class="bg-white shadow-sm sticky top-0 z-30 p-3 flex items-center gap-3">
+ <a href="index.html"><i class="ri-arrow-left-line text-2xl"></i></a>
+ <p class="text-lg font-bold">My Orders</p>
+</header>
+
+<div id="ordersList" class="p-4">
+ <p class="text-center text-gray-500">Loading...</p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyA-VQMjqAhIB33bc8Pm79voqB_OvwWrjzE",
+ authDomain: "ff-bazar-4c198.firebaseapp.com",
+ projectId: "ff-bazar-4c198",
+ storageBucket: "ff-bazar-4c198.firebasestorage.app",
+ messagingSenderId: "1090990307122",
+ appId: "1:1090990307122:web:22f6b02df43b818b49092b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+onAuthStateChanged(auth, async (user) => {
+ if(!user){
+ document.getElementById('ordersList').innerHTML = "<p class='text-center'>Login করুন</p>";
+ return;
+ }
+ 
+ const q = query(collection(db, "orders"), where("userEmail", "==", user.email), orderBy("time", "desc"));
+ const querySnapshot = await getDocs(q);
+ let html = "";
+ 
+ if(querySnapshot.empty){
+ html = "<p class='text-center text-gray-500'>কোনো অর্ডার নাই</p>";
+ }else{
+ querySnapshot.forEach((doc) => {
+ const data = doc.data();
+ html += `
+ <div class="bg-white p-3 rounded-xl shadow-sm mb-3">
+ <p class="font-bold">${data.item}</p>
+ <p class="text-sm">UID: ${data.ffUID}</p>
+ <p class="text-sm">Price: ${data.price} Tk</p>
+ <p class="text-xs text-green-600 mt-1">Status: ${data.status}</p>
+ </div>
+ `;
+ });
+ }
+ document.getElementById('ordersList').innerHTML = html;
+});
+</script>
+</body> </html>
