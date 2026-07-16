@@ -1,0 +1,81 @@
+<!DOCTYPE html> <html lang="bn"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Order - FF BAZAR</title> <script src="https://cdn.tailwindcss.com"></script> <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"> </head> <body class="bg-[#f5f5f7] pb-20">
+
+<header class="bg-white shadow-sm sticky top-0 z-30 p-3 flex items-center gap-3">
+ <a href="index.html"><i class="ri-arrow-left-line text-2xl"></i></a>
+ <p class="text-lg font-bold">Confirm Order</p>
+</header>
+
+<div class="p-4">
+ <div id="itemBox" class="bg-white p-4 rounded-xl shadow-sm mb-4">
+ <!-- JS দিয়ে Item Name + Price আসবে -->
+ </div>
+ 
+ <div class="bg-white p-4 rounded-xl shadow-sm">
+ <label class="font-bold text-sm">তোমার FF UID</label>
+ <input type="number" id="ffUID" placeholder="123456789" class="w-full mt-2 p-3 border rounded-lg focus:border-purple-600 outline-none">
+ <p class="text-xs text-gray-500 mt-1">ভুল UID দিলে দায়ী আমরা না</p>
+ 
+ <button id="confirmBtn" class="w-full mt-4 bg-purple-700 text-white font-bold py-3 rounded-lg">
+ Confirm & Order
+ </button>
+ </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyA-VQMjqAhIB33bc8Pm79voqB_OvwWrjzE",
+ authDomain: "ff-bazar-4c198.firebaseapp.com",
+ projectId: "ff-bazar-4c198",
+ storageBucket: "ff-bazar-4c198.firebasestorage.app",
+ messagingSenderId: "1090990307122",
+ appId: "1:1090990307122:web:22f6b02df43b818b49092b"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const urlParams = new URLSearchParams(window.location.search);
+const itemName = urlParams.get('item');
+const price = urlParams.get('price');
+let currentUser = null;
+
+document.getElementById('itemBox').innerHTML = `
+ <p class="font-bold text-lg">${itemName}</p>
+ <p class="text-purple-700 font-bold text-xl">${price} Tk</p>
+`;
+
+onAuthStateChanged(auth, (user) => {
+ if(!user){
+ alert("আগে Login করুন");
+ window.location.href = "index.html";
+ }
+ currentUser = user;
+});
+
+document.getElementById('confirmBtn').onclick = async () => {
+ const ffUID = document.getElementById('ffUID').value;
+ if(!ffUID){ alert("UID দিন"); return; }
+ 
+ try{
+ await addDoc(collection(db, "orders"), {
+ userName: currentUser.displayName,
+ userEmail: currentUser.email,
+ item: itemName,
+ price: price,
+ ffUID: ffUID,
+ status: "Pending",
+ time: serverTimestamp()
+ });
+ alert("অর্ডার সফল! ✅");
+ window.location.href = "orders.html";
+ }catch(e){
+ alert("Error: " + e);
+ }
+}
+</script>
+</body> </html>
