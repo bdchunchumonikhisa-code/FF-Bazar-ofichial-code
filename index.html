@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEST TOPUP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+    body { background: #f5f7fa; padding-bottom: 70px; }
+.header { background: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: bold; color: #0047ab; }
+.logo img { height: 35px; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.login-btn { background: #0047ab; color: #fff; padding: 8px 18px; border-radius: 6px; border: none; font-weight: bold; }
+.balance { background: #0047ab; color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+.profile { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+.slider { position: relative; margin: 10px; border-radius: 10px; overflow: hidden; height: 180px; }
+.slides { display: flex; transition: transform 0.5s ease-in-out; }
+.slide { min-width: 100%; }
+.slide img { width: 100%; height: 180px; object-fit: cover; }
+.dots { text-align: center; position: absolute; bottom: 10px; width: 100%; }
+.dot { height: 8px; width: 8px; margin: 0 4px; background-color: #bbb; border-radius: 50%; display: inline-block; }
+.dot.active { background-color: #0047ab; }
+.container { padding: 15px 10px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.card { background: #fff; border-radius: 10px; padding: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer; transition: 0.2s; }
+.card:hover { transform: translateY(-3px); }
+.card img { width: 100%; border-radius: 8px; margin-bottom: 8px; aspect-ratio: 1/1; object-fit: cover; }
+.card p { font-weight: bold; font-size: 13px; color: #1a2a4a; }
+.section-title { text-align: center; font-size: 22px; font-weight: bold; margin: 20px 0; color: #1a2a4a; }
+.bottom-banner { display: flex; gap: 10px; margin: 20px 0; }
+.banner-box { flex: 1; background: #fff; padding: 10px; border-radius: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 13px; font-weight: bold; }
+.banner-box img { width: 40px; }
+.help-btn { position: fixed; bottom: 80px; right: 15px; background: #e63946; color: #fff; padding: 12px 15px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-weight: bold; z-index: 99; }
+.navbar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+.nav-item { text-align: center; color: #666; font-size: 11px; }
+.nav-item.active { color: #0047ab; }
+.nav-item div { font-size: 20px; margin-bottom: 3px; }
+.hidden { display: none; }
+
+    /* NOTICE + TELEGRAM BUTTON CSS */
+.notice { background: #0047ab; color: #fff; padding: 15px; margin: 10px; border-radius: 8px; position: relative; }
+.notice h3 { margin-bottom: 8px; }
+.notice.close { position: absolute; top: 10px; right: 10px; cursor: pointer; font-size: 20px; }
+.telegram-btns { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 10px; }
+.tg-btn { background: #0047ab; color: #fff; padding: 12px; border-radius: 8px; display: flex; align-items: center; gap: 10px; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.tg-btn small { display: block; font-size: 11px; opacity: 0.8; }
+
+    /* PRODUCT DETAIL PAGE CSS */
+.product-header { background: #fff; padding: 15px; border-radius: 10px; display: flex; gap: 15px; margin-bottom: 15px; align-items: center; }
+.product-header img { width: 80px; height: 80px; border-radius: 10px; }
+.product-header h2 { font-size: 18px; }
+.product-header p { color: #888; font-size: 13px; }
+.section { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+.section h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 16px; }
+.badge { background: #0047ab; color: #fff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.package-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.package { border: 1px solid #ddd; padding: 12px; border-radius: 8px; text-align: center; cursor: pointer; position: relative; }
+.package:hover { border-color: #0047ab; background: #f0f5ff; }
+.package.active { border-color: #0047ab; background: #e6f0ff; }
+.package h4 { font-size: 14px; margin-bottom: 5px; color: #1a2a4a; }
+.package p { color: #0047ab; font-weight: bold; }
+.out-of-stock { position: absolute; top: 5px; right: 5px; background: #4a90e2; color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 10px; }
+.out-of-stock-card h4,.out-of-stock-card p { color: #aaa; }
+.how-order { color: #0047ab; margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.input-field { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; }
+.btn-blue { width: 100%; background: #0047ab; color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: bold; }
+.back-btn { background: #666; color: #fff; padding: 8px 15px; border: none; border-radius: 6px; margin-bottom: 10px; }
+.help-float { position: fixed; bottom: 80px; right: 15px; background: #e63946; color: #fff; padding: 10px 15px; border-radius: 30px; font-weight: bold; z-index: 99; }
+
+    /* PAYMENT + RULES CSS */
+.payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.pay-option { border: 2px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; position: relative; }
+.pay-option.active { border-color: #0047ab; }
+.pay-option.active::before { content: "✓"; position: absolute; top: 0; left: 0; background: #0047ab; color: #fff; padding: 2px 8px; border-radius: 0 0 8px 0; font-size: 14px; }
+.pay-option img { height: 35px; margin-bottom: 5px; }
+.balance-info { font-size: 13px; color: #555; margin: 10px 0; display: flex; align-items: center; gap: 5px; }
+.rules { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+.rules h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.rules ul { list-style: none; padding-left: 0; }
+.rules li { margin-bottom: 8px; font-size: 14px; }
+.rules li::before { content: "◎ "; color: #0047ab; font-weight: bold; }
+
+    /* PAYMENT GATEWAY PAGE */
+.payment-page { background: #fff; min-height: 100vh; }
+.payment-header { text-align: center; padding: 20px; }
+.payment-header img { width: 100px; margin-bottom: 10px; }
+.mobile-banking { background: #0047ab; color: #fff; padding: 12px; border-radius: 8px; margin: 15px; text-align: center; }
+.payment-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 15px; }
+.pay-method { border: 1px solid #ddd; border-radius: 8px; padding: 15px; text-align: center; cursor: pointer; }
+.pay-method img { height: 50px; }
+.pay-bottom { position: fixed; bottom: 0; width: 100%; background: #e6f0ff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; color: #0047ab; }
+
+    /* BKASH/NAGAD PAGE */
+.bkash-page { background: #E2136E; color: #fff; padding: 15px; min-height: 100vh; }
+.nagad-page { background: #D50032; color: #fff; padding: 15px; min-height: 100vh; }
+.trx-box { background: #fff; color: #333; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+.trx-box h3 { text-align: center; margin-bottom: 10px; color: #000; }
+.trx-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; }
+.trx-list { list-style: none; }
+.trx-list li { margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; }
+.trx-list li:last-child { border: none; }
+.copy-btn { background: #666; color: #fff; border: none; padding: 3px 10px; border-radius: 5px; margin-left: 5px; }
+.verify-btn { width: 100%; background: #d50032; color: #fff; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; }
+.success { background: #4CAF50; color: #fff; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1: HOME -->
+<div id="homePage">... আগের মতোই... </div>
+
+<!-- PAGE 2: PRODUCT DETAIL -->
+<div id="productPage" class="hidden">... আগের মতোই... 
+  <button class="btn-blue" onclick="openPayment()">Buy Now</button>
+</div>
+
+<!-- PAGE 3: PAYMENT METHOD SELECT -->
+<div id="paymentPage" class="hidden">
+  <div class="payment-page">
+    <div class="payment-header">
+      <div style="width:100px; height:100px; border:2px solid #0047ab; border-radius:50%; margin:0 auto; display:flex; align-items:center; justify-content:center;">Wallet</div>
+      <h2>Wallet</h2>
+    </div>
+    <div class="mobile-banking">Mobile Banking</div>
+    <div class="payment-methods">
+      <div class="pay-method" onclick="openBkash()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BKash_bKash_Logo.png" alt="bKash">
+      </div>
+      <div class="pay-method" onclick="openNagad()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Nagad_Logo.png" alt="Nagad">
+      </div>
+    </div>
+    <div class="pay-bottom">Pay <span id="payAmount">0.00</span>৳</div>
+  </div>
+</div>
+
+<!-- PAGE 4: BKASH -->
+<div id="bkashPage" class="hidden">
+  <div class="bkash-page">
+    <div style="display:flex; justify-content:center; margin-bottom:15px;"><img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BKash_bKash_Logo.png" style="width:100px; background:#fff; padding:10px; border-radius:10px;"></div>
+    <div class="trx-box">
+      <p>Wallet</p>
+    </div>
+    <div class="trx-box">
+      <p>৳ <span id="bkashAmount">0</span></p>
+    </div>
+    <div id="successMsg" class="hidden success">✅ Payment Successful!</div>
+    <div class="trx-box">
+      <h3>ট্রান্সজেকশন আইডি দিন</h3>
+      <input type="text" id="trxId" class="trx-input" placeholder="ট্রান্সজেকশন আইডি দিন">
+      <ul class="trx-list">
+        <li>*247# ডায়াল করে আপনার bKash মোবাইল মেনুতে যান অথবা bKash অ্যাপে যান</li>
+        <li><b>"Send Money"</b> -এ ক্লিক করুন।</li>
+        <li>প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুনঃ <b style="color:#E2136E;">01723621283</b> <button class="copy-btn" onclick="copy('01723621283')">Copy</button></li>
+        <li>টাকার পরিমাণঃ <b style="color:#E2136E;" id="bkashTk">0</b></li>
+        <li>নিশ্চিত করতে এখন আপনার bKash মোবাইল মেনু পিন লিখুন।</li>
+        <li>সবকিছু ঠিক থাকলে, আপনি bKash থেকে একটি নিশ্চিতকরণ বার্তা পাবেন।</li>
+      </ul>
+      <button class="verify-btn" onclick="verify('bkash')">VERIFY</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: NAGAD -->
+<div id="nagadPage" class="hidden">
+  <div class="nagad-page">
+    <div style="display:flex; justify-content:center; margin-bottom:15px;"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Nagad_Logo.png" style="width:100px; background:#fff; padding:10px; border-radius:10px;"></div>
+    <div class="trx-box">
+      <p>Wallet</p>
+    </div>
+    <div class="trx-box">
+      <p>৳ <span id="nagadAmount">0</span></p>
+    </div>
+    <div id="successMsg2" class="hidden success">✅ Payment Successful!</div>
+    <div class="trx-box">
+      <h3>ট্রান্সজেকশন আইডি দিন</h3>
+      <input type="text" id="trxId2" class="trx-input" placeholder="ট্রান্সজেকশন আইডি দিন">
+      <ul class="trx-list">
+        <li>*167# ডায়াল করে আপনার Nagad মোবাইল মেনুতে যান অথবা Nagad অ্যাপে যান</li>
+        <li><b>"Send Money"</b> -এ ক্লিক করুন।</li>
+        <li>প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুনঃ <b style="color:#D50032;">01337165939</b> <button class="copy-btn" onclick="copy('01337165939')">Copy</button></li>
+        <li>টাকার পরিমাণঃ <b style="color:#D50032;" id="nagadTk">0</b></li>
+        <li>নিশ্চিত করতে এখন আপনার Nagad মোবাইল মেনু পিন লিখুন।</li>
+        <li>সবকিছু ঠিক থাকলে, আপনি Nagad থেকে একটি নিশ্চিতকরণ বার্তা পাবেন।</li>
+      </ul>
+      <button class="verify-btn" onclick="verify('nagad')">VERIFY</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let selectedAmount = 0;
+
+const uidData = [{name: 'WEEKLY', price: 'BDT 158'}, {name: 'MONTHLY', price: 'BDT 790'},{name: '25 Diamond', price: 'BDT 22'}];
+const lessData = [{name: '1X LESS IS MORE', price: 'BDT 200'}];
+const weeklyData = [{name: 'WEEKLY', price: 'BDT 158'}];
+const liteData = [{name: '1X Weekly Lite', price: 'BDT 42'}];
+const evoData = [{name: '3 Days Evo Access', price: 'BDT 75'}];
+const likesData = [{name: '200 FF LIKE', price: 'BDT 35'}];
+const levelData = [{name: 'Level Up Package - Level 6', price: 'BDT 40'}];
+const indoData = [{name: '50 Diamond (Indo)', price: 'BDT 65'}, {name: 'Monthly (Indo)', price: 'BDT 820'}];
+
+const indoRules = ["এখানে ইন্দোনেশিয়ান সার্ভারে টপ আপ করতে পারবেন","Player ID Code ভুল দিয়ে Diamond না পেলে FFBazar কর্তৃপক্ষ দায়ী নয়"];
+const bdRules = ["এখানে বাংলাদেশ সার্ভারে টপ আপ করতে পারবেন","Player ID Code ভুল দিয়ে Diamond না পেলে FFBazar কর্তৃপক্ষ দায়ী নয়"];
+
+function openProduct(name, img, data) {
+  document.getElementById('homePage').classList.add('hidden');
+  document.getElementById('productPage').classList.remove('hidden');
+  document.getElementById('prodName').innerText = name;
+  document.getElementById('prodImg').src = img;
+
+  let packageHTML = '';
+  data.forEach((item, index) => {
+    let price = parseInt(item.price.replace('BDT ',''));
+    packageHTML += `<div class="package" onclick="selectPackage(this, ${price})"><h4>${item.name}</h4><p>${item.price}</p></div>`;
+  });
+  document.getElementById('packageList').innerHTML = packageHTML;
+
+  let rules = (name === 'INDONESIA TOPUP')? indoRules : bdRules;
+  let rulesHTML = '';
+  rules.forEach(rule => { rulesHTML += `<li>${rule}</li>`; });
+  document.getElementById('rulesList').innerHTML = rulesHTML;
+}
+
+function selectPackage(el, price){
+  document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  selectedAmount = price;
+  document.querySelector('.btn-blue').innerText = `Buy Now - ${price}৳`;
+}
+
+function openPayment(){
+  if(selectedAmount == 0){ alert("প্রথমে একটি প্যাকেজ সিলেক্ট করুন"); return; }
+  document.getElementById('productPage').classList.add('hidden');
+  document.getElementById('paymentPage').classList.remove('hidden');
+  document.getElementById('payAmount').innerText = selectedAmount;
+}
+
+function openBkash(){
+  document.getElementById('paymentPage').classList.add('hidden');
+  document.getElementById('bkashPage').classList.remove('hidden');
+  document.getElementById('bkashAmount').innerText = selectedAmount;
+  document.getElementById('bkashTk').innerText = selectedAmount;
+}
+function openNagad(){
+  document.getElementById('paymentPage').classList.add('hidden');
+  document.getElementById('nagadPage').classList.remove('hidden');
+  document.getElementById('nagadAmount').innerText = selectedAmount;
+  document.getElementById('nagadTk').innerText = selectedAmount;
+}
+
+function verify(type){
+  let trx = (type=='bkash')? document.getElementById('trxId').value : document.getElementById('trxId2').value;
+  if(trx == ''){ alert("Transaction ID দিন"); return; }
+  if(type=='bkash'){ document.getElementById('successMsg').classList.remove('hidden'); }
+  else{ document.getElementById('successMsg2').classList.remove('hidden'); }
+}
+
+function copy(num){
+  navigator.clipboard.writeText(num);
+  alert("Number Copied: "+num);
+}
+
+function goHome() {
+  document.getElementById('productPage').classList.add('hidden');
+  document.getElementById('paymentPage').classList.add('hidden');
+  document.getElementById('bkashPage').classList.add('hidden');
+  document.getElementById('nagadPage').classList.add('hidden');
+  document.getElementById('homePage').classList.remove('hidden');
+}
+
+function login() { alert("Login System পরে add করবো।"); }
+</script>
+
+</body>
+</html>
