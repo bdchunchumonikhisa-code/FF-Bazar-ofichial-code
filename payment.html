@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment</title>
+<style>
+body { background: #f5f7fa; text-align: center; padding: 20px; }
+.wallet-circle { width: 120px; height: 120px; border: 2px solid #0047ab; border-radius: 50%; margin: 20px auto; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.mobile-btn { background: #0047ab; color: #fff; padding: 12px; border-radius: 8px; margin: 15px; }
+.pay-methods { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px; }
+.pay-box { background: #fff; padding: 20px; border-radius: 10px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.pay-bottom { position: fixed; bottom: 0; width: 100%; left:0; background: #e6f0ff; padding: 15px; font-size: 18px; font-weight: bold; color: #0047ab; }
+</style>
+</head>
+<body>
+<div class="wallet-circle">Wallet</div>
+<h2>Wallet</h2>
+<div class="mobile-btn">Mobile Banking</div>
+<div class="pay-methods">
+<div class="pay-box" onclick="window.location.href='bkash.html'">
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/BKash_bKash_Logo.png" style="height:40px;">
+</div>
+<div class="pay-box" onclick="window.location.href='nagad.html'">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Nagad_Logo.png" style="height:40px;">
+</div>
+</div>
+<div class="pay-bottom">Pay <span id="payAmount">0</span>.00৳</div>
+
+<script>
+document.getElementById('payAmount').innerText = localStorage.getItem('amount');
+</script>
+</body>
+</html>
