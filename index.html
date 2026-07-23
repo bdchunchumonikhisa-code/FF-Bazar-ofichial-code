@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEST TOPUP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+    body { background: #f5f7fa; padding-bottom: 70px; }
+    
+    /* HEADER */
+    .header { background: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: bold; color: #0047ab; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .login-btn { background: #0047ab; color: #fff; padding: 8px 18px; border-radius: 6px; border: none; font-weight: bold; }
+    .balance { background: #0047ab; color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 14px; display: flex; align-items: center; gap: 5px; }
+    .profile { width: 35px; height: 35px; border-radius: 50%; background: #ccc; }
+    
+    /* CONTAINER */
+    .container { padding: 15px 10px; }
+    
+    /* FREE SPIN SECTION */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+    .card { background: #fff; border-radius: 10px; padding: 8px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .card img { width: 100%; border-radius: 8px; margin-bottom: 8px; aspect-ratio: 1/1; object-fit: cover; }
+    .card p { font-weight: bold; font-size: 13px; color: #1a2a4a; }
+    
+    /* FREE FIRE SECTION */
+    .section-title { text-align: center; font-size: 22px; font-weight: bold; margin: 20px 0; color: #1a2a4a; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    
+    /* BOTTOM BANNERS */
+    .bottom-banner { display: flex; gap: 10px; margin: 20px 0; }
+    .banner-box { flex: 1; background: #fff; padding: 10px; border-radius: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); font-size: 13px; font-weight: bold; }
+    
+    /* HELP BUTTON */
+    .help-btn { position: fixed; bottom: 80px; right: 15px; background: #e63946; color: #fff; padding: 12px 15px; border-radius: 30px; display: flex; align-items: center; gap: 8px; font-weight: bold; z-index: 99; }
+    
+    /* NAVBAR */
+    .navbar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+    .nav-item { text-align: center; color: #666; font-size: 11px; }
+    .nav-item.active { color: #0047ab; }
+    .nav-item div { font-size: 20px; margin-bottom: 3px; }
+    
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1: LOGIN ER AGE -->
+<div id="page1">
+  <div class="header">
+    <div class="logo">💎 BEST TOPUP</div>
+    <button class="login-btn" onclick="login()">Login</button>
+  </div>
+
+  <div class="container">
+    <!-- FREE SPIN -->
+    <div class="grid-2">
+      <div class="card">
+        <img src="https://via.placeholder.com/200/ff0000/fff?text=SPIN" alt="">
+        <p>FREE SPIN (ক্লিক করুন)</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/200/ffd700/000?text=VIP" alt="">
+        <p>PREMIUM OFFERS</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">FREE FIRE</h2>
+    
+    <!-- PRODUCT GRID -->
+    <div class="grid-3">
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LESS" alt=""><p>LESS IS MORE</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LIKES" alt=""><p>FREE FIRE LIKES</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=UID" alt=""><p>UID TOPUP (BD)</p></div>
+      
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=WM" alt=""><p>WEEKLY/MONTHLY</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LITE" alt=""><p>WEEKLY LITE (BD)</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=EVO" alt=""><p>EVO ACCESS (BD)</p></div>
+      
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LEVEL" alt=""><p>LEVEL UP PASS</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=INDO" alt=""><p>INDONESIA TOPUP</p></div>
+    </div>
+
+    <!-- BOTTOM BANNERS -->
+    <div class="bottom-banner">
+      <div class="banner-box">📱 Download Our Mobile App<br>Click Here →</div>
+      <div class="banner-box">📨 Giveway & Offer Update</div>
+    </div>
+    
+    <div class="help-btn">সাহায্য লাগবে ? 📞</div>
+  </div>
+
+  <div class="navbar">
+    <div class="nav-item active"><div>🏠</div>Home</div>
+    <div class="nav-item"><div>▶️</div>Tutorial</div>
+    <div class="nav-item"><div>🧭</div>TopUp</div>
+    <div class="nav-item"><div>🔲</div>Contact Us</div>
+  </div>
+</div>
+
+
+<!-- PAGE 2: LOGIN ER POR -->
+<div id="page2" class="hidden">
+  <div class="header">
+    <div class="logo">💎 BEST TOPUP</div>
+    <div class="header-right">
+      <div class="balance">💼 0৳</div>
+      <div class="profile"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- SAME PRODUCT GRID -->
+    <div class="grid-2">
+      <div class="card">
+        <img src="https://via.placeholder.com/200/ff0000/fff?text=SPIN" alt="">
+        <p>FREE SPIN (ক্লিক করুন)</p>
+      </div>
+      <div class="card">
+        <img src="https://via.placeholder.com/200/ffd700/000?text=VIP" alt="">
+        <p>PREMIUM OFFERS</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">FREE FIRE</h2>
+    
+    <div class="grid-3">
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LESS" alt=""><p>LESS IS MORE</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LIKES" alt=""><p>FREE FIRE LIKES</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=UID" alt=""><p>UID TOPUP (BD)</p></div>
+      
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=WM" alt=""><p>WEEKLY/MONTHLY</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LITE" alt=""><p>WEEKLY LITE (BD)</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=EVO" alt=""><p>EVO ACCESS (BD)</p></div>
+      
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=LEVEL" alt=""><p>LEVEL UP PASS</p></div>
+      <div class="card"><img src="https://via.placeholder.com/150/0047ab/fff?text=INDO" alt=""><p>INDONESIA TOPUP</p></div>
+    </div>
+
+    <div class="bottom-banner">
+      <div class="banner-box">📱 Download Our Mobile App<br>Click Here →</div>
+      <div class="banner-box">📨 Giveway & Offer Update</div>
+    </div>
+    
+    <div class="help-btn">সাহায্য লাগবে ? 📞</div>
+  </div>
+
+  <div class="navbar">
+    <div class="nav-item active"><div>🏠</div>Home</div>
+    <div class="nav-item"><div>💰</div>Add Money</div>
+    <div class="nav-item"><div>📋</div>My Orders</div>
+    <div class="nav-item"><div>🔲</div>My Codes</div>
+    <div class="nav-item"><div>👤</div>My Account</div>
+  </div>
+</div>
+
+<script>
+function login() {
+  document.getElementById('page1').classList.add('hidden');
+  document.getElementById('page2').classList.remove('hidden');
+}
+</script>
+
+</body>
+  </html>
