@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order - FFBazar</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+body { background: #f5f7fa; padding-bottom: 70px; }
+.header { background: #fff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: bold; color: #0047ab; }
+.logo img { height: 40px; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.balance { background: #0047ab; color: #fff; padding: 8px 15px; border-radius: 25px; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+.profile { width: 40px; height: 40px; border-radius: 50%; background: #6c3d2e; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+.container { padding: 15px 10px; }
+.back-btn { background: #666; color: #fff; padding: 8px 15px; border: none; border-radius: 6px; margin-bottom: 10px; cursor: pointer; }
+.product-header { background: #fff; padding: 15px; border-radius: 10px; display: flex; gap: 15px; margin-bottom: 15px; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.product-header img { width: 80px; height: 80px; border-radius: 10px; object-fit: cover; }
+.product-header h2 { font-size: 18px; color: #1a2a4a; }
+.product-header p { color: #888; font-size: 13px; }
+.section { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+.section h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 16px; color: #1a2a4a; }
+.badge { background: #0047ab; color: #fff; width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold; }
+.package-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.package { border: 1px solid #e0e0e0; padding: 15px 10px; border-radius: 8px; text-align: center; cursor: pointer; transition: 0.2s; }
+.package:hover { border-color: #0047ab; }
+.package.active { border-color: #0047ab; background: #e6f0ff; }
+.package h4 { font-size: 14px; margin-bottom: 8px; color: #1a2a4a; font-weight: bold; }
+.package p { color: #0047ab; font-weight: bold; font-size: 15px; }
+.how-order { color: #28a745; margin-top: 10px; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: bold; }
+.input-field { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 10px; font-size: 14px; }
+.btn-blue { width: 100%; background: #0047ab; color: #fff; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 15px; }
+.payment-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.pay-option { border: 2px solid #ddd; border-radius: 8px; text-align: center; cursor: pointer; background:#fff; overflow:hidden; position:relative; }
+.pay-option.active { border-color: #0047ab; }
+.balance-info { font-size: 13px; color: #555; margin: 10px 0; }
+.rules { background: #fff; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+.rules h3 { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: #dc3545; }
+.rules li { margin-bottom: 10px; font-size: 14px; line-height: 1.6; list-style: none; padding-left: 20px; position: relative; }
+.rules li::before { content: "👉"; position: absolute; left: 0; }
+.navbar { position: fixed; bottom: 0; width: 100%; background: #fff; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+.nav-item { text-align: center; color: #666; font-size: 11px; }
+.nav-item div { font-size: 20px; margin-bottom: 3px; }
+.help-float { position: fixed; bottom: 80px; right: 15px; background: #dc3545; color: #fff; padding: 10px 15px; border-radius: 30px; font-weight: bold; z-index: 99; display: flex; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+<div class="header">
+<div class="logo"><img src="images/logo.png" alt=""> FFBazar</div>
+<div class="header-right">
+<div class="balance">💼 <span id="headerBalance">0</span>৳</div>
+<div class="profile">B</div>
+</div>
+</div>
+<div class="container">
+<button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+<div class="product-header">
+<img id="prodImg" src="" alt="">
+<div><h2 id="prodName"></h2><p>Game / Top up</p></div>
+</div>
+<div class="section">
+<h3><span class="badge">1</span> Select Recharge</h3>
+<div class="package-grid" id="packageList"></div>
+<div class="how-order">📎 কিভাবে অর্ডার করবেন? →</div>
+</div>
+<div class="section">
+<h3><span class="badge">2</span> Account Info</h3>
+<p style="margin-bottom:8px;">এখানে গেমের আইডি কোড দিন</p>
+<input type="text" id="gameId" class="input-field" placeholder="এখানে গেমের আইডি কোড দিন">
+<button class="btn-blue">আপনার গেম আইডির নাম চেক করুন</button>
+</div>
+
+<div class="section">
+<h3><span class="badge">3</span> Select one option</h3>
+<div class="payment-grid">
+<div class="pay-option active" onclick="selectPay(this)">
+<div style="position: relative; padding:15px 10px;">
+<span style="position:absolute; top:0; left:0; background:#dc3545; color:#fff; padding:2px 8px; clip-path: polygon(0 0, 0% 100%, 100% 0); font-size:12px;">✓</span>
+<img src="images/wallet-pay.png" style="height:45px; margin-bottom:5px;" alt="">
+<div style="font-weight:bold; font-size:15px;">FFBazar</div>
+<div style="font-size:13px;">ওয়ালেট</div>
+</div>
+<div style="background:#f1f1f1; padding:5px; border-radius:0 0 6px 6px; font-size:12px; font-weight:bold; color:#333;">Wallet Pay</div>
+</div>
+<div class="pay-option" onclick="selectPay(this)">
+<div style="position: relative; padding:15px 10px;">
+<img src="images/payment-logos.png" style="height:45px; margin-bottom:5px;" alt="">
+<div style="font-weight:bold; font-size:14px; color:#0047ab;">Auto Payment</div>
+</div>
+<div style="background:#f1f1f1; padding:5px; border-radius:0 0 6px 6px; font-size:12px; font-weight:bold; color:#333;">Instant Pay</div>
+</div>
+</div>
+<div class="balance-info" style="display:flex; align-items:center; gap:5px; margin-top:10px;">
+<span style="color:#0047ab;">ℹ️</span>
+<span>আপনার অ্যাকাউন্ট ব্যালেন্স</span>
+<b style="color:#0047ab;">৳ <span id="userBalance">0.00</span></b>
+<button style="border:none; background:none; cursor:pointer;">🔄</button>
+</div>
+<div class="balance-info" style="display:flex; align-items:center; gap:5px;">
+<span style="color:#0047ab;">ℹ️</span>
+<span>প্রোডাক্ট কিনতে আপনার প্রয়োজন</span>
+<b style="color:#0047ab;">৳ <span id="needAmount">0</span></b>
+</div>
+<button class="btn-blue" onclick="goPayment()">Buy Now</button>
+</div>
+
+<div class="rules">
+<h3>📋 Rules & Conditions</h3>
+<ul id="rulesList"></ul>
+</div>
+</div>
+<div class="help-float">সাহায্য লাগবে? 📞</div>
+<div class="navbar">
+<div class="nav-item"><div>🏠</div>Home</div>
+<div class="nav-item"><div>💰</div>Add Money</div>
+<div class="nav-item"><div>📋</div>My Orders</div>
+<div class="nav-item"><div>🔲</div>My Codes</div>
+<div class="nav-item"><div>👤</div>My Account</div>
+</div>
+
+<script>
+// SOB PACKAGE ER DATA - Photo onujayi
+const uidData = [ {name: 'WEEKLY', price: 'BDT 158'}, {name: 'MONTHLY', price: 'BDT 790'}, {name: '25 Diamond', price: 'BDT 22'}, {name: '50 Diamond', price: 'BDT 36'}, {name: '115 Diamond', price: 'BDT 79'}, {name: '240 Diamond', price: 'BDT 158'}, {name: '355 Diamond', price: 'BDT 237'}, {name: '480 Diamond', price: 'BDT 316'}, {name: '610 Diamond', price: 'BDT 400'}, {name: '850 Diamond', price: 'BDT 558'}, {name: '1240 Diamond', price: 'BDT 800'}, {name: '2530 Diamond', price: 'BDT 1610'} ];
+const lessData = [ {name: '1X LESS IS MORE', price: 'BDT 200'}, {name: '2X LESS IS MORE', price: 'BDT 420'}, {name: '3X LESS IS MORE', price: 'BDT 630'}, {name: '5X LESS IS MORE', price: 'BDT 1050'}, {name: '10X LESS IS MORE', price: 'BDT 2100'}, {name: '20X LESS IS MORE', price: 'BDT 4200'}, {name: '50X LESS IS MORE', price: 'BDT 10250'} ];
+const weeklyData = [ {name: 'WEEKLY', price: 'BDT 158'}, {name: '2X WEEKLY', price: 'BDT 316'}, {name: '3X WEEKLY', price: 'BDT 474'}, {name: 'MONTHLY', price: 'BDT 790'}, {name: '2X MONTHLY', price: 'BDT 1540'}, {name: '1X WEEKLY+1X MONTHLY', price: 'BDT 948'}, {name: '3WEEKLY+1MONTHLY', price: 'BDT 1264'} ];
+const liteData = [ {name: '1X Weekly Lite', price: 'BDT 42'}, {name: '2X Weekly Lite', price: 'BDT 84'}, {name: '3X Weekly Lite', price: 'BDT 126'}, {name: '5X Weekly Lite', price: 'BDT 210'} ];
+const evoData = [ {name: '3 Days Evo Access', price: 'BDT 75'}, {name: '7 Days Evo Access', price: 'BDT 115'}, {name: '14 Days Evo Access', price: 'BDT 230'}, {name: '30 Days Evo Access', price: 'BDT 345'} ];
+const likesData = [ {name: '200 FF LIKE- প্রতিদিন 1 আইডিতে 1বার', price: 'BDT 35'}, {name: '3000 FF LIKE-15 দিন এ পাবেন', price: 'BDT 450'}, {name: '6000 FF LIKE- 30 দিন এ পাবেন', price: 'BDT 900'}, {name: '12000 FF LIKE- 60 দিন পাবেন', price: 'BDT 1800'} ];
+const levelData = [ {name: 'Level Up Package - Level 6', price: 'BDT 40'}, {name: 'Level Up Package - Level 10', price: 'BDT 75'}, {name: 'Level Up Package - Level 15', price: 'BDT 75'}, {name: 'Level Up Package - Level 20', price: 'BDT 75'}, {name: 'Level Up Package - Level 25', price: 'BDT 75'}, {name: 'Level Up Package - Level 30', price: 'BDT 105'}, {name: 'Full Level Up (1270 Diamond)', price: 'BDT 445'} ];
+const indoData = [ {name: '5 Diamond (Indo)', price: 'BDT 10'}, {name: '50 Diamond (Indo)', price: 'BDT 65'}, {name: '70 Diamond (Indo)', price: 'BDT 90'}, {name: '100 Diamond (Indo)', price: 'BDT 130'}, {name: '140 Diamond (Indo)', price: 'BDT 180'}, {name: '355 Diamond (Indo)', price: 'BDT 445'}, {name: '720 Diamond (Indo)', price: 'BDT 890'}, {name: '7290 Diamond (Indo)', price: 'BDT 8800'}, {name: 'Weekly (Indo)', price: 'BDT 255'}, {name: 'Monthly (Indo)', price: 'BDT 820'} ];
+
+// RULES
+const lessRules = [ "অর্ডার করার আগে ভালো ভাবে পড়ে নিন।", "আপনার ফ্রী ফায়ার একাউন্টে 0 থেকে 49 ডায়মন্ডের ভিতরে থাকলে এই অফারটি নিতে পারবেন।", "এক আইডিতে 1 বারই নেওয়া যাবে, আগে নেওয়া থাকলে অর্ডার ক্যান্সেল হয়ে টাকা ওয়ালেট এ ব্যাক যাবে।", "1x এর পরে 2x-50x এর মধ্যে একাধিক যে প্যাকেজ গুলো আছে, সেগুলো যদি কোন কারনে কম পান তাহলে আমরা চেক করে বাকি টাকা ওয়ালেট এ ব্যাক দিবো।" ];
+const normalRules = [ "এখানে বাংলাদেশ সার্ভারে টপ আপ করতে পারবেন", "Player ID Code ভুল দিয়ে Diamond না পেলে FFBazar কর্তৃপক্ষ দায়ী নয়", "Order কমপ্লিট হওয়ার পরেও আইডিতে ডাইমন্ড না গেলে চেক করার জন্য ID Pass দিতে হবে" ];
+
+let selectedAmount = 0; let selectedPay = "Wallet";
+
+window.onload = function(){
+let name = localStorage.getItem('prodName');
+let img = localStorage.getItem('prodImg');
+let dataName = localStorage.getItem('dataName');
+document.getElementById('prodName').innerText = name;
+document.getElementById('prodImg').src = img;
+
+let data = window[dataName];
+let packageHTML = '';
+data.forEach(item => {
+let price = parseInt(item.price.replace('BDT ',''));
+packageHTML += `<div class="package" onclick="selectPackage(this, ${price})"><h4>${item.name}</h4><p>${item.price}</p></div>`;
+});
+document.getElementById('packageList').innerHTML = packageHTML;
+
+let rules = (name === 'LESS IS MORE')? lessRules : normalRules;
+let rulesHTML = ''; rules.forEach(rule => {rulesHTML += `<li>${rule}</li>`; });
+document.getElementById('rulesList').innerHTML = rulesHTML;
+}
+
+function selectPackage(el, price){
+document.querySelectorAll('.package').forEach(p=>p.classList.remove('active'));
+el.classList.add('active'); selectedAmount = price;
+document.getElementById('needAmount').innerText = price;
+}
+function selectPay(element) {
+document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('active'));
+element.classList.add('active');
+selectedPay = element.innerText.includes("Instant")? "Instant" : "Wallet";
+}
+function goPayment(){
+if(selectedAmount == 0){ alert("প্রথমে একটি প্যাকেজ সিলেক্ট করুন"); return; }
+if(document.getElementById('gameId').value == ''){ alert("গেম আইডি দিন"); return; }
+localStorage.setItem('amount', selectedAmount);
+localStorage.setItem('gameId', document.getElementById('gameId').value);
+window.location.href = 'payment.html';
+}
+</script>
+</body>
+</html>
